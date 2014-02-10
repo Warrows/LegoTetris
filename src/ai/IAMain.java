@@ -6,8 +6,6 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
-
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
 

@@ -6,6 +6,7 @@ import ai.model.Grid;
 public class GameInput implements TetrisDataInput
 {
 	private JetrisMainFrame jmf;
+	Grid g;
 
 	public GameInput(JetrisMainFrame jmf)
 	{
@@ -15,7 +16,9 @@ public class GameInput implements TetrisDataInput
 	@Override
 	public Grid getTetrisData()
 	{
-		return new Grid();
+		g = new Grid();
+		g.setFigure(jmf.getFigure());
+		return g;
 	}
 
 	@Override

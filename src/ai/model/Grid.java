@@ -3,13 +3,21 @@ package ai.model;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import net.sourceforge.jetris.Figure;
+
 public class Grid implements Comparable<Grid>
 {
 	private boolean[][] grid;
+	private Figure figure;
 
 	public Grid()
 	{
 		grid = new boolean[20][10];
+	}
+	
+	public void setFigure(Figure f)
+	{
+		figure = f;
 	}
 
 	private double compute()

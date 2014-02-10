@@ -64,6 +64,11 @@ public class JetrisMainFrame extends JFrame  {
     
     private JPanel hiScorePanel;
     private PublishHandler pH;
+
+	public Figure getFigure()
+	{
+		return f;
+	}
     
     private class GridThread extends Thread {
         
