@@ -969,6 +969,11 @@ public class JetrisMainFrame extends JFrame  {
         }
     }
     
+    public boolean isOccupied(int row, int col)
+    {
+        return ! cells[row][col].getBackground().equals(Color.WHITE);
+    }
+    
     public boolean isGameOver()
     {
     	return isGameOver;
