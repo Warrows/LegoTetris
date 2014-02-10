@@ -963,4 +963,9 @@ public class JetrisMainFrame extends JFrame  {
             }
         }
     }
+    
+    public boolean isGameOver()
+    {
+    	return isGameOver;
+    }
 }

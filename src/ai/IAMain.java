@@ -25,7 +25,7 @@ public class IAMain implements Runnable
 	@Override
 	public void run()
 	{
-		while (true)
+		while (!tdi.isGameOver())
 		{
 			// Acquisition de la grille
 			currentState = tdi.getTetrisData();

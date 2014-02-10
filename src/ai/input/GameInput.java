@@ -18,4 +18,10 @@ public class GameInput implements TetrisDataInput
 		return new Grid();
 	}
 
+	@Override
+	public boolean isGameOver()
+	{
+		return jmf.isGameOver();
+	}
+
 }
