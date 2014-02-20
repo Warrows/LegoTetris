@@ -48,11 +48,10 @@ public class Tetromino
 			break;
 		case L:
 			representation = new boolean[3][3];
-			representation[1][0] = true;
-			representation[1][1] = true;
+			representation[0][0] = true;
+			representation[0][1] = true;
+			representation[0][2] = true;
 			representation[1][2] = true;
-			representation[2][2] = true;
-			colOffset = 3;
 			break;
 		case S:
 			representation = new boolean[4][2];
