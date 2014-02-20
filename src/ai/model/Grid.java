@@ -229,12 +229,21 @@ public class Grid implements Comparable<Grid>
 	private double holesNumber()
 	{
 		double i = 0;
-		for (Cell[] row : board)
-			for (Cell c : row)
-				if (!c.isOccupied()
-						&& getCell(c.getRow() + 1, c.getCol()).isOccupied())
-					i++;
+		for (int col = 0; col < WIDTH; col ++)
+			for (int row = 0; row < HEIGHT; row ++)
+				if (!occupied(col, row))
+					i += testHoleColumn(row,col);
 		return i;
+	}
+	
+	private double testHoleColumn(int row, int col)
+	{
+		for (int i = row-1; i>=0; i--)
+			if (occupied(col,i))
+			{
+				return 1;
+			}
+		return 0;
 	}
 
 	private double columnsTransitions()
@@ -247,13 +256,11 @@ public class Grid implements Comparable<Grid>
 				if ((row[k].isOccupied() || tetromino.getCells(this).contains(
 						row[k])) != b)
 				{
-					System.out.println(row[k]);
 					i++;
 					b = (row[k].isOccupied() || tetromino.getCells(this)
 							.contains(row[k]));
 				}
 		}
-		System.out.println("->"+i);
 		return i;
 	}
 
@@ -285,10 +292,10 @@ public class Grid implements Comparable<Grid>
 		return d;
 	}
 
-	private boolean occupied(int row, int col)
+	private boolean occupied(int col, int row)
 	{
-		return board[row][col].isOccupied()
-				|| tetromino.getCells(this).contains(getCell(col, row));
+		return board[col][row].isOccupied()
+				|| tetromino.getCells(this).contains(getCell(row, col));
 	}
 
 	private double testRow(int row)
