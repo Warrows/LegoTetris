@@ -9,11 +9,12 @@ import net.sourceforge.jetris.figures.*;
 
 public class Grid implements Comparable<Grid>
 {
-
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 20;
 	private Cell[][] board;
 	private Tetromino tetromino;
+
+	private int rotations, translations, down;
 
 	public Grid()
 	{
@@ -21,7 +22,10 @@ public class Grid implements Comparable<Grid>
 		for (int col = 0; col < WIDTH; col++)
 			for (int row = 0; row < HEIGHT; row++)
 				board[col][row] = new Cell(col, row);
-		// TODO KEEP ?   updateTetromino();
+		rotations = 0;
+		translations = 0;
+		down = 0;
+		// TODO KEEP ? updateTetromino();
 	}
 
 	public Grid(Grid grid)
@@ -31,10 +35,13 @@ public class Grid implements Comparable<Grid>
 			for (int row = 0; row < HEIGHT; row++)
 			{
 				this.board[col][row] = new Cell(col, row);
-				if(grid.board[col][row].isOccupied())
+				if (grid.board[col][row].isOccupied())
 					this.board[col][row].occupy();
 			}
 		this.tetromino = grid.tetromino;
+		rotations = 0;
+		translations = 0;
+		down = 0;
 	}
 
 	/**
@@ -54,14 +61,20 @@ public class Grid implements Comparable<Grid>
 
 	public Cell getCell(int row, int col)
 	{
+		if (row >= HEIGHT || col < 0 || col >= WIDTH)
+			return null;
 		return board[col][row];
 	}
 
 	public boolean moveDown()
 	{
 		for (Cell cell : tetromino.getCells(this))
+		{
+			if (cell == null)
+				return true;
 			if (isOccupied(cell.getCol(), cell.getRow() + 1))
 				return false;
+		}
 		tetromino.fall();
 		return true;
 	}
@@ -74,7 +87,7 @@ public class Grid implements Comparable<Grid>
 	public boolean moveLeft()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol() - 1, cell.getRow()))
+			if (cell == null || isOccupied(cell.getCol() - 1, cell.getRow()))
 				return false;
 		tetromino.moveLeft();
 		return true;
@@ -86,7 +99,7 @@ public class Grid implements Comparable<Grid>
 	public boolean moveRight()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol() + 1, cell.getRow()))
+			if (cell == null || isOccupied(cell.getCol() + 1, cell.getRow()))
 				return false;
 		tetromino.moveRight();
 		return true;
@@ -241,34 +254,39 @@ public class Grid implements Comparable<Grid>
 	{
 		SortedSet<Grid> children = new TreeSet<Grid>();
 		Grid gridA, gridB;
+		int t = 0;
 		for (int i = 0; i < 4; i++)
 		{
 			gridA = new Grid(this);
 			gridA.turnClockwise();
 			while (gridA.moveLeft())
+				t--;
+			do
 			{
 				gridB = new Grid(gridA);
-				while(gridB.moveDown())
+				while (gridB.moveDown())
+					gridB.down++;
+				gridB.rotations = i;
+				gridB.translations = t;
 				children.add(gridB);
-				System.out.println(gridB);
-			}
-			while (gridA.moveRight())
-			{
-				gridB = new Grid(gridA);
-				while(gridB.moveDown())
-				children.add(gridB);
-			}
+				t++;
+			} while (gridA.moveRight());
 		}
-		//System.out.println(children);
+		if (children.isEmpty())
+			System.out.println(children);
+		System.out.println("->Rot:" + children.first().getRotation()
+				+ ", Trans:" + children.first().getTranslation() + ", Down:a"
+				+ children.first().getDown());
+
 		return children;
 	}
-	
+
 	@Override
 	public int compareTo(Grid o)
 	{
 		return (int) (this.compute() - o.compute());
 	}
-		
+
 	private double compute()
 	{
 		double val = 0;
@@ -349,9 +367,23 @@ public class Grid implements Comparable<Grid>
 		return 1;
 	}
 
+	public int getRotation()
+	{
+		return rotations;
+	}
+
+	public int getTranslation()
+	{
+		return translations;
+	}
+
+	public int getDown()
+	{
+		return down;
+	}
+
 	private double landingHeight()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return 20 - down;
 	}
 }

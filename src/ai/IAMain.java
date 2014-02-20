@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
+
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
 
@@ -32,15 +33,33 @@ public class IAMain implements Runnable
 			// calcul du chemin entre la grille actuelle et le sous grille
 			// envoi du chemin
 			play(getCommands());
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	private List<Command> getCommands()
 	{
 		List<Command> list = new LinkedList<Command>();
+		if (possibleStates.isEmpty())
+			return list;
 		Grid objective = possibleStates.first();
-
-		list.add(Command.MOVE_DOWN);
+		System.out.println(objective);
+		System.out.println("Rot:"+objective.getRotation()+", Trans:"+objective.getTranslation()+", Down:a"+objective.getDown());
+		for (int i = 0; i< objective.getRotation(); i++)
+			list.add(Command.ROTATE);
+		for (int i = 0; i< objective.getTranslation(); i++)
+			list.add(Command.MOVE_RIGHT);
+		for (int i = 0; i> objective.getTranslation(); i--)
+			list.add(Command.MOVE_LEFT);
+		for (int i = 0; i< objective.getDown(); i++)
+			list.add(Command.MOVE_DOWN);
 		return list;
 	}
 
