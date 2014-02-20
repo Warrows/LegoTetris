@@ -1,6 +1,8 @@
 package net.sourceforge.jetris;
 import java.util.Random;
 
+import net.sourceforge.jetris.figures.*;
+
 /* FigureFactory created on 14.09.2006 */
 
 public class FigureFactory {

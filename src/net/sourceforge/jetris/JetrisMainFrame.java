@@ -4,10 +4,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.text.html.HTML;
 
 import res.ResClass;
-
+import net.sourceforge.jetris.figures.*;
 import net.sourceforge.jetris.io.PublishHiScore;
 
 import java.awt.*;
@@ -21,8 +20,9 @@ import java.awt.event.WindowFocusListener;
 import java.io.BufferedInputStream;
 
 public class JetrisMainFrame extends JFrame  {
-    
-    private static final String NAME = "JETRIS 1.1";
+	private static final long serialVersionUID = 1431936923670938387L;
+	
+	private static final String NAME = "JETRIS 1.1";
     private static final int CELL_H = 24;
     
     private Font font;
