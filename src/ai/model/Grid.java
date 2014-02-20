@@ -2,7 +2,6 @@ package ai.model;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.Iterator;
 
 import net.sourceforge.jetris.Figure;
 import net.sourceforge.jetris.figures.*;
@@ -38,31 +37,20 @@ public class Grid implements Comparable<Grid>
 				if (grid.board[col][row].isOccupied())
 					this.board[col][row].occupy();
 			}
-		this.tetromino = grid.tetromino;
+		this.tetromino = new Tetromino(grid.tetromino);
 		rotations = 0;
 		translations = 0;
 		down = 0;
 	}
 
-	/**
-	 * 
-	 * @param newTetromino
-	 */
-	public void updateTetromino()
-	{
-		tetromino = new Tetromino();
-		for (Cell c : tetromino.getCells(this))
-			if (c.isOccupied())
-			{
-				gameOver();
-				return;
-			}
-	}
-
 	public Cell getCell(int row, int col)
 	{
-		if (row >= HEIGHT || col < 0 || col >= WIDTH)
-			return null;
+		if (row < 0 || row >= HEIGHT || col < 0 || col >= WIDTH)
+		{
+			Cell a = new Cell(row, col);
+			a.occupy();
+			return a;
+		}
 		return board[col][row];
 	}
 
@@ -70,8 +58,6 @@ public class Grid implements Comparable<Grid>
 	{
 		for (Cell cell : tetromino.getCells(this))
 		{
-			if (cell == null)
-				return true;
 			if (isOccupied(cell.getCol(), cell.getRow() + 1))
 				return false;
 		}
@@ -87,7 +73,7 @@ public class Grid implements Comparable<Grid>
 	public boolean moveLeft()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (cell == null || isOccupied(cell.getCol() - 1, cell.getRow()))
+			if (isOccupied(cell.getCol() - 1, cell.getRow()))
 				return false;
 		tetromino.moveLeft();
 		return true;
@@ -99,7 +85,7 @@ public class Grid implements Comparable<Grid>
 	public boolean moveRight()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (cell == null || isOccupied(cell.getCol() + 1, cell.getRow()))
+			if (isOccupied(cell.getCol() + 1, cell.getRow()))
 				return false;
 		tetromino.moveRight();
 		return true;
@@ -151,9 +137,10 @@ public class Grid implements Comparable<Grid>
 			str += "|";
 			for (int col = 0; col < WIDTH; col++)
 			{
-				if (getCell(row, col).isOccupied()
-						|| tetromino.getCells(this).contains(getCell(row, col)))
+				if (getCell(row, col).isOccupied())
 					str += " X ";
+				else if (tetromino.getCells(this).contains(getCell(row, col)))
+					str += " O ";
 				else
 					str += " . ";
 			}
@@ -163,65 +150,6 @@ public class Grid implements Comparable<Grid>
 		}
 
 		return str;
-	}
-
-	public void lockTetromino()
-	{
-		TreeSet<Integer> rows = new TreeSet<Integer>();
-		if (tetromino.isOut())
-		{
-			gameOver();
-			return;
-		}
-		for (Cell c : tetromino.getCells(this))
-		{
-			c.occupy();
-			rows.add(c.getRow());
-		}
-		breakLines(rows);
-		updateTetromino();
-	}
-
-	private void gameOver()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	private void breakLines(TreeSet<Integer> rows)
-	{
-		Iterator<Integer> it = rows.iterator();
-
-		while (it.hasNext())
-		{
-			int line = it.next();
-			for (int i = 0; i < WIDTH; i++)
-			{
-				if (!getCell(line, i).isOccupied())
-				{
-					it.remove();
-					break;
-				}
-			}
-		}
-		for (int row : rows)
-			breakLine(row);
-	}
-
-	private boolean breakLine(int rowToClear)
-	{
-		for (int i = 0; i < WIDTH; i++)
-		{
-			getCell(rowToClear, i).free();
-		}
-		for (int row = rowToClear; row >= 0; row--)
-			for (int col = 0; col < WIDTH; col++)
-				if (getCell(row, col).isOccupied())
-				{
-					getCell(row + 1, col).occupy();
-					getCell(row, col).free();
-				}
-		return true;
 	}
 
 	public void setCell(int row, int col, boolean occupied)
@@ -255,10 +183,9 @@ public class Grid implements Comparable<Grid>
 		SortedSet<Grid> children = new TreeSet<Grid>();
 		Grid gridA, gridB;
 		int t = 0;
+		gridA = new Grid(this);
 		for (int i = 0; i < 4; i++)
 		{
-			gridA = new Grid(this);
-			gridA.turnClockwise();
 			while (gridA.moveLeft())
 				t--;
 			do
@@ -271,12 +198,12 @@ public class Grid implements Comparable<Grid>
 				children.add(gridB);
 				t++;
 			} while (gridA.moveRight());
+			gridA.turnClockwise();
 		}
-		if (children.isEmpty())
 			System.out.println(children);
-		System.out.println("->Rot:" + children.first().getRotation()
-				+ ", Trans:" + children.first().getTranslation() + ", Down:a"
-				+ children.first().getDown());
+		// System.out.println("->Rot:" + children.first().getRotation()
+		// + ", Trans:" + children.first().getTranslation() + ", Down:"
+		// + children.first().getDown());
 
 		return children;
 	}
@@ -284,10 +211,10 @@ public class Grid implements Comparable<Grid>
 	@Override
 	public int compareTo(Grid o)
 	{
-		return (int) (this.compute() - o.compute());
+		return (int) (o.compute() - this.compute());
 	}
 
-	private double compute()
+	public double compute()
 	{
 		double val = 0;
 		val += -4.500158825082766 * landingHeight();
@@ -301,20 +228,83 @@ public class Grid implements Comparable<Grid>
 
 	private double wellSums()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		int well_sums = 0;
+
+		// Check for well cells in the "inner columns" of the board.
+		// "Inner columns" are the columns that aren't touching the edge of the
+		// board.
+		for (int i = 1; i < WIDTH - 1; ++i)
+		{
+			for (int j = board.length - 1; j >= 0; --j)
+			{
+				if ((!board[i][j].isOccupied())
+						&& (board[i - 1][j].isOccupied())
+						&& (board[i + 1][j].isOccupied()))
+				{
+
+					// Found well cell, count it + the number of empty cells
+					// below it.
+					++well_sums;
+
+					for (int k = j - 1; k >= 0; --k)
+					{
+						if (!(board[i][k].isOccupied()))
+						{
+							++well_sums;
+						} else
+						{
+							break;
+						}
+					}
+				}
+			}
+		}
+		/*
+		 * TODO // Check for well cells in the leftmost column of the board. for
+		 * (int j = board.length - 1; j >= 0; --j) { if ((((board[j] >> 0) & 1)
+		 * == 0) && (((board[j] >> (0 + 1)) & 1) == 1)) {
+		 * 
+		 * // Found well cell, count it + the number of empty cells below // it.
+		 * ++well_sums;
+		 * 
+		 * for (int k = j - 1; k >= 0; --k) { if (((board[k] >> 0) & 1) == 0) {
+		 * ++well_sums; } else { break; } } } }
+		 * 
+		 * // Check for well cells in the rightmost column of the board. for
+		 * (int j = board.length - 1; j >= 0; --j) { if ((((board[j] >>
+		 * (num_columns - 1)) & 1) == 0) && (((board[j] >> (num_columns - 2)) &
+		 * 1) == 1)) { // Found well cell, count it + the number of empty cells
+		 * below // it.
+		 * 
+		 * ++well_sums; for (int k = j - 1; k >= 0; --k) { if (((board[k] >>
+		 * (num_columns - 1)) & 1) == 0) { ++well_sums; } else { break; } } } }
+		 */
+		return well_sums;
 	}
 
 	private double holesNumber()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		double i = 0;
+		for (Cell[] row : board)
+			for (Cell c : row)
+				if (!c.isOccupied()
+						&& getCell(c.getRow() + 1, c.getCol()).isOccupied())
+					i++;
+		return i;
 	}
 
 	private double columnsTransitions()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		double i = 0;
+		boolean b = true;
+		for (int k = 0; k< WIDTH; k++)
+			for (Cell[] row : board)	
+				if (row[k].isOccupied() != b)
+				{
+					i++;
+					b = row[k].isOccupied();
+				}
+		return i;
 	}
 
 	/**
@@ -323,32 +313,16 @@ public class Grid implements Comparable<Grid>
 	 */
 	private double rowsTransitions()
 	{
-		int transitions = 0;
-		boolean last_bit = true;
-		boolean bit = true;
-
-		for (int i = 0; i < board.length; ++i)
-		{
-			Cell[] row = board[i];
-
-			for (int j = 0; j < board[0].length; ++j)
-			{
-				bit = row[j].isOccupied();
-
-				if (bit != last_bit)
+		double i = 0;
+		boolean b = true;
+		for (Cell[] row : board)
+			for (Cell c : row)
+				if (c.isOccupied() != b)
 				{
-					++transitions;
+					i++;
+					b = c.isOccupied();
 				}
-
-				last_bit = bit;
-			}
-			if (!bit)
-			{
-				++transitions;
-			}
-			last_bit = true;
-		}
-		return transitions;
+		return i;
 	}
 
 	private double rowsEliminated()
@@ -384,6 +358,6 @@ public class Grid implements Comparable<Grid>
 
 	private double landingHeight()
 	{
-		return 20 - down;
+		return ( tetromino.getHeightPosition() + tetromino.getHeight() )/2;
 	}
 }

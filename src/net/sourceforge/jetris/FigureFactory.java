@@ -35,13 +35,7 @@ public class FigureFactory {
         lastLastOne = lastOne;
         lastOne = i+1;
         counts[i]++;
-         
-        i = r.nextInt(4);
-
-        for (int j = 0; j < i; j++) {
-            f.rotationRight();
-        }
-        
+                 
         return f;
     }
     

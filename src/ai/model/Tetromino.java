@@ -3,7 +3,6 @@ package ai.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.jetris.Figure;
 import net.sourceforge.jetris.figures.*;
 
 public class Tetromino
@@ -21,8 +20,8 @@ public class Tetromino
 	public Tetromino(TetrominoType type)
 	{
 		this.type = type;
-		colOffset = Grid.WIDTH / 2;
 		rowOffset = 0;
+		colOffset = 4;
 		switch (type)
 		{
 		case O:
@@ -38,6 +37,7 @@ public class Tetromino
 			representation[1][1] = true;
 			representation[1][2] = true;
 			representation[1][3] = true;
+			colOffset = 3;
 			break;
 		case J:
 			representation = new boolean[3][3];
@@ -52,20 +52,22 @@ public class Tetromino
 			representation[1][1] = true;
 			representation[1][2] = true;
 			representation[2][2] = true;
+			colOffset = 3;
 			break;
 		case S:
-			representation = new boolean[3][2];
+			representation = new boolean[4][2];
 			representation[1][0] = true;
 			representation[2][0] = true;
 			representation[0][1] = true;
 			representation[1][1] = true;
+			colOffset = 4;
 			break;
 		case T:
 			representation = new boolean[3][3];
+			representation[2][0] = true;
+			representation[0][0] = true;
 			representation[1][0] = true;
 			representation[1][1] = true;
-			representation[1][2] = true;
-			representation[0][1] = true;
 			break;
 		case Z:
 			representation = new boolean[3][2];
@@ -112,8 +114,20 @@ public class Tetromino
 		this(TetrominoType.Z);
 	}
 
+	public Tetromino(Tetromino tetromino)
+	{
+		type = tetromino.type;
+		rowOffset = tetromino.rowOffset;
+		colOffset = tetromino.colOffset;
+		representation = tetromino.representation.clone();
+	}
+
 	public boolean turnClockwise(Grid grid)
 	{
+		if (type == TetrominoType.Z)
+			colOffset++;
+		if (type == TetrominoType.T)
+			return turnCounterClockwise(grid);
 		final int M = representation.length;
 		final int N = representation[0].length;
 		boolean[][] ret = new boolean[N][M];
@@ -226,5 +240,23 @@ public class Tetromino
 			s += "\n";
 		}
 		return s;
+	}
+
+	public int getHeightPosition()
+	{
+		return Grid.HEIGHT - rowOffset;
+	}
+
+	public int getHeight()
+	{
+		int h = 0;
+		for (int i = 0; i < representation.length; i++)
+			for (int j = 0; j < representation[i].length; j++)
+				if (representation[i][j])
+				{
+					h++;
+					break;
+				}
+		return h;
 	}
 }

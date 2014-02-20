@@ -35,10 +35,9 @@ public class IAMain implements Runnable
 			play(getCommands());
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -51,22 +50,40 @@ public class IAMain implements Runnable
 			return list;
 		Grid objective = possibleStates.first();
 		System.out.println(objective);
-		System.out.println("Rot:"+objective.getRotation()+", Trans:"+objective.getTranslation()+", Down:a"+objective.getDown());
-		for (int i = 0; i< objective.getRotation(); i++)
+		System.out.println("Rot:" + objective.getRotation() + ", Trans:"
+				+ objective.getTranslation() + ", Down:" + objective.getDown()
+				+ ", Score:" + objective.compute());
+		for (int i = 0; i < objective.getRotation(); i++)
 			list.add(Command.ROTATE);
-		for (int i = 0; i< objective.getTranslation(); i++)
+		for (int i = 0; i < objective.getTranslation(); i++)
 			list.add(Command.MOVE_RIGHT);
-		for (int i = 0; i> objective.getTranslation(); i--)
+		for (int i = 0; i > objective.getTranslation(); i--)
 			list.add(Command.MOVE_LEFT);
-		for (int i = 0; i< objective.getDown(); i++)
+		for (int i = 0; i < objective.getDown(); i++)
 			list.add(Command.MOVE_DOWN);
 		return list;
 	}
 
 	private void play(List<Command> commands)
 	{
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 		for (Command c : commands)
+		{
 			execute(c);
+			try
+			{
+				Thread.sleep(50);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void execute(Command c)
