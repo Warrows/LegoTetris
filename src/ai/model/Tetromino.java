@@ -249,13 +249,14 @@ public class Tetromino
 	public int getHeight()
 	{
 		int h = 0;
-		for (int i = 0; i < representation.length; i++)
-			for (int j = 0; j < representation[i].length; j++)
-				if (representation[i][j])
+		for (int i = 0; i < representation[0].length; i++)
+			for (int j = 0; j < representation.length; j++)
+				if (representation[j][i])
 				{
 					h++;
 					break;
 				}
+		System.out.println(h);
 		return h;
 	}
 }

@@ -228,58 +228,7 @@ public class Grid implements Comparable<Grid>
 
 	private double wellSums()
 	{
-		int well_sums = 0;
-
-		// Check for well cells in the "inner columns" of the board.
-		// "Inner columns" are the columns that aren't touching the edge of the
-		// board.
-		for (int i = 1; i < WIDTH - 1; ++i)
-		{
-			for (int j = board.length - 1; j >= 0; --j)
-			{
-				if ((!board[i][j].isOccupied())
-						&& (board[i - 1][j].isOccupied())
-						&& (board[i + 1][j].isOccupied()))
-				{
-
-					// Found well cell, count it + the number of empty cells
-					// below it.
-					++well_sums;
-
-					for (int k = j - 1; k >= 0; --k)
-					{
-						if (!(board[i][k].isOccupied()))
-						{
-							++well_sums;
-						} else
-						{
-							break;
-						}
-					}
-				}
-			}
-		}
-		/*
-		 * TODO // Check for well cells in the leftmost column of the board. for
-		 * (int j = board.length - 1; j >= 0; --j) { if ((((board[j] >> 0) & 1)
-		 * == 0) && (((board[j] >> (0 + 1)) & 1) == 1)) {
-		 * 
-		 * // Found well cell, count it + the number of empty cells below // it.
-		 * ++well_sums;
-		 * 
-		 * for (int k = j - 1; k >= 0; --k) { if (((board[k] >> 0) & 1) == 0) {
-		 * ++well_sums; } else { break; } } } }
-		 * 
-		 * // Check for well cells in the rightmost column of the board. for
-		 * (int j = board.length - 1; j >= 0; --j) { if ((((board[j] >>
-		 * (num_columns - 1)) & 1) == 0) && (((board[j] >> (num_columns - 2)) &
-		 * 1) == 1)) { // Found well cell, count it + the number of empty cells
-		 * below // it.
-		 * 
-		 * ++well_sums; for (int k = j - 1; k >= 0; --k) { if (((board[k] >>
-		 * (num_columns - 1)) & 1) == 0) { ++well_sums; } else { break; } } } }
-		 */
-		return well_sums;
+		return 0; //TODO
 	}
 
 	private double holesNumber()
