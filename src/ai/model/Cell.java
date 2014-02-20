@@ -43,5 +43,10 @@ public class Cell
 	{
 		return col;
 	}
+	
+	public String toString()
+	{
+		return "Row: "+row+" ,Col: "+col;
+	}
 
 }

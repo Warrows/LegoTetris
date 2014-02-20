@@ -223,7 +223,7 @@ public class Grid implements Comparable<Grid>
 
 	private double wellSums()
 	{
-		return 0; //TODO
+		return 0; // TODO
 	}
 
 	private double holesNumber()
@@ -240,14 +240,20 @@ public class Grid implements Comparable<Grid>
 	private double columnsTransitions()
 	{
 		double i = 0;
-		boolean b = true;
-		for (int k = 0; k< WIDTH; k++)
-			for (Cell[] row : board)	
-				if (row[k].isOccupied() != b)
+		for (int k = 0; k < HEIGHT; k++)
+		{
+			boolean b = false;
+			for (Cell[] row : board)
+				if ((row[k].isOccupied() || tetromino.getCells(this).contains(
+						row[k])) != b)
 				{
+					System.out.println(row[k]);
 					i++;
-					b = row[k].isOccupied();
+					b = (row[k].isOccupied() || tetromino.getCells(this)
+							.contains(row[k]));
 				}
+		}
+		System.out.println("->"+i);
 		return i;
 	}
 
@@ -258,14 +264,16 @@ public class Grid implements Comparable<Grid>
 	private double rowsTransitions()
 	{
 		double i = 0;
-		boolean b = true;
-		for (Cell[] row : board)
-			for (Cell c : row)
-				if (c.isOccupied() != b)
+		for (Cell[] col : board)
+		{
+			boolean b = false;
+			for (Cell c : col)
+				if ((c.isOccupied() || tetromino.getCells(this).contains(c)) != b)
 				{
 					i++;
-					b = c.isOccupied();
+					b = (c.isOccupied() || tetromino.getCells(this).contains(c));
 				}
+		}
 		return i;
 	}
 
@@ -277,10 +285,16 @@ public class Grid implements Comparable<Grid>
 		return d;
 	}
 
+	private boolean occupied(int row, int col)
+	{
+		return board[row][col].isOccupied()
+				|| tetromino.getCells(this).contains(getCell(col, row));
+	}
+
 	private double testRow(int row)
 	{
 		for (int i = 0; i < 10; i++)
-			if (!board[i][row].isOccupied() && ! tetromino.getCells(this).contains(getCell(row,i)))
+			if (!occupied(i, row))
 				return 0;
 		return 1;
 	}
@@ -302,6 +316,6 @@ public class Grid implements Comparable<Grid>
 
 	private double landingHeight()
 	{
-		return ( tetromino.getHeightPosition() + tetromino.getHeight() )/2;
+		return (tetromino.getHeightPosition() + tetromino.getHeight()) / 2;
 	}
 }
