@@ -200,11 +200,6 @@ public class Grid implements Comparable<Grid>
 			} while (gridA.moveRight());
 			gridA.turnClockwise();
 		}
-			System.out.println(children);
-		// System.out.println("->Rot:" + children.first().getRotation()
-		// + ", Trans:" + children.first().getTranslation() + ", Down:"
-		// + children.first().getDown());
-
 		return children;
 	}
 
@@ -285,7 +280,7 @@ public class Grid implements Comparable<Grid>
 	private double testRow(int row)
 	{
 		for (int i = 0; i < 10; i++)
-			if (!board[i][row].isOccupied())
+			if (!board[i][row].isOccupied() && ! tetromino.getCells(this).contains(getCell(row,i)))
 				return 0;
 		return 1;
 	}

@@ -256,7 +256,6 @@ public class Tetromino
 					h++;
 					break;
 				}
-		System.out.println(h);
 		return h;
 	}
 }
