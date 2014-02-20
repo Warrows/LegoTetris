@@ -17,6 +17,9 @@ public class GameInput implements TetrisDataInput
 	public Grid getTetrisData()
 	{
 		g = new Grid();
+		for (int row = 0; row < 20; row++)
+			for (int col = 0; col < 10; col++)
+				g.setCell(row,col,jmf.isOccupied(row, col));
 		g.setFigure(jmf.getFigure());
 		return g;
 	}

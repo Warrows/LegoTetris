@@ -40,7 +40,7 @@ public class IAMain implements Runnable
 		List<Command> list = new LinkedList<Command>();
 		Grid objective = possibleStates.first();
 
-		list.add(Command.MOVE_DOWN); // TODO
+		list.add(Command.MOVE_DOWN);
 		return list;
 	}
 
