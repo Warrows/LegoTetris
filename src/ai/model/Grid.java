@@ -223,7 +223,25 @@ public class Grid implements Comparable<Grid>
 
 	private double wellSums()
 	{
-		return 0; // TODO
+		double i = 0;
+		for (int col = 0; col < WIDTH; col ++)
+			i+= wells(0, col);
+		
+		return i;
+	}
+
+	private double wells(int row, int col)
+	{
+		if (row > HEIGHT)
+			return 0;
+		double next = wells(row + 1, col);
+		if (next == -1 && !occupied(col, row) && occupied(col-1, row) && occupied(col+1, row))
+			return 2;
+		if (next == 0 && !occupied(col, row) && occupied(col-1, row) && occupied(col+1, row))
+			return -1;
+		if (next > 0  && !occupied(col, row) && occupied(col-1, row) && occupied(col+1, row))
+			return next + 1;
+		return 0;
 	}
 
 	private double holesNumber()
@@ -294,6 +312,8 @@ public class Grid implements Comparable<Grid>
 
 	private boolean occupied(int col, int row)
 	{
+		if (col < 0 || row < 0 || col >= WIDTH || row >= HEIGHT)
+			return true;
 		return board[col][row].isOccupied()
 				|| tetromino.getCells(this).contains(getCell(row, col));
 	}
@@ -323,6 +343,8 @@ public class Grid implements Comparable<Grid>
 
 	private double landingHeight()
 	{
+
+		System.out.println(tetromino.getHeightPosition() + "->" + tetromino.getHeight());
 		return (tetromino.getHeightPosition() + tetromino.getHeight()) / 2;
 	}
 }

@@ -10,6 +10,7 @@ public class Tetromino
 	private TetrominoType type;
 	private int rowOffset;
 	private int colOffset;
+	private int height;
 	private boolean[][] representation;
 
 	public Tetromino()
@@ -22,6 +23,7 @@ public class Tetromino
 		this.type = type;
 		rowOffset = 0;
 		colOffset = 4;
+		height = Grid.HEIGHT;
 		switch (type)
 		{
 		case O:
@@ -167,6 +169,7 @@ public class Tetromino
 	public void fall()
 	{
 		rowOffset += 1;
+		height --;
 	}
 
 	/**
@@ -243,7 +246,7 @@ public class Tetromino
 
 	public int getHeightPosition()
 	{
-		return Grid.HEIGHT - rowOffset;
+		return height;
 	}
 
 	public int getHeight()

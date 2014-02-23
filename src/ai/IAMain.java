@@ -50,9 +50,6 @@ public class IAMain implements Runnable
 			return list;
 		Grid objective = possibleStates.first();
 		System.out.println(objective);
-		System.out.println("Rot:" + objective.getRotation() + ", Trans:"
-				+ objective.getTranslation() + ", Down:" + objective.getDown()
-				+ ", Score:" + objective.compute());
 		for (int i = 0; i < objective.getRotation(); i++)
 			list.add(Command.ROTATE);
 		for (int i = 0; i < objective.getTranslation(); i++)
@@ -68,7 +65,7 @@ public class IAMain implements Runnable
 	{
 		try
 		{
-			Thread.sleep(500);
+			Thread.sleep(50);
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
