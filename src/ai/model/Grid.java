@@ -3,6 +3,7 @@ package ai.model;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import ai.model.tetrominos.*;
 import net.sourceforge.jetris.Figure;
 import net.sourceforge.jetris.figures.*;
 
@@ -37,7 +38,30 @@ public class Grid implements Comparable<Grid>
 				if (grid.board[col][row].isOccupied())
 					this.board[col][row].occupy();
 			}
-		this.tetromino = new Tetromino(grid.tetromino);
+		switch (grid.tetromino.getType())
+		{
+		case I:
+			this.tetromino = new TetrominoI(grid.tetromino);
+			break;
+		case J:
+			this.tetromino = new TetrominoJ(grid.tetromino);
+			break;
+		case L:
+			this.tetromino = new TetrominoL(grid.tetromino);
+			break;
+		case O:
+			this.tetromino = new TetrominoO(grid.tetromino);
+			break;
+		case S:
+			this.tetromino = new TetrominoS(grid.tetromino);
+			break;
+		case T:
+			this.tetromino = new TetrominoT(grid.tetromino);
+			break;
+		case Z:
+			this.tetromino = new TetrominoZ(grid.tetromino);
+			break;		
+		}
 		rotations = 0;
 		translations = 0;
 		down = 0;
@@ -164,19 +188,19 @@ public class Grid implements Comparable<Grid>
 	public void setFigure(Figure figure)
 	{
 		if (figure instanceof FigureI)
-			tetromino = new Tetromino((FigureI) figure);
+			tetromino = new TetrominoI();
 		if (figure instanceof FigureO)
-			tetromino = new Tetromino((FigureO) figure);
+			tetromino = new TetrominoO();
 		if (figure instanceof FigureL)
-			tetromino = new Tetromino((FigureL) figure);
+			tetromino = new TetrominoL();
 		if (figure instanceof FigureS)
-			tetromino = new Tetromino((FigureS) figure);
+			tetromino = new TetrominoS();
 		if (figure instanceof FigureZ)
-			tetromino = new Tetromino((FigureZ) figure);
+			tetromino = new TetrominoZ();
 		if (figure instanceof FigureT)
-			tetromino = new Tetromino((FigureT) figure);
+			tetromino = new TetrominoT();
 		if (figure instanceof FigureJ)
-			tetromino = new Tetromino((FigureJ) figure);
+			tetromino = new TetrominoJ();
 	}
 
 	public SortedSet<Grid> children()

@@ -3,116 +3,22 @@ package ai.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import ai.model.tetrominos.*;
 import net.sourceforge.jetris.figures.*;
 
-public class Tetromino
+public abstract class Tetromino
 {
-	private TetrominoType type;
-	private int rowOffset;
-	private int colOffset;
+	protected TetrominoType type;
+	protected int rowOffset;
+	protected int colOffset;
 	private int height;
-	private boolean[][] representation;
+	protected boolean[][] representation;
 
 	public Tetromino()
 	{
-		this(TetrominoType.getRandomTetrominoType());
-	}
-
-	public Tetromino(TetrominoType type)
-	{
-		this.type = type;
 		rowOffset = 0;
 		colOffset = 4;
 		height = Grid.HEIGHT;
-		switch (type)
-		{
-		case O:
-			representation = new boolean[2][2];
-			representation[0][0] = true;
-			representation[0][1] = true;
-			representation[1][0] = true;
-			representation[1][1] = true;
-			break;
-		case I:
-			representation = new boolean[3][4];
-			representation[1][0] = true;
-			representation[1][1] = true;
-			representation[1][2] = true;
-			representation[1][3] = true;
-			colOffset = 3;
-			break;
-		case J:
-			representation = new boolean[3][3];
-			representation[0][2] = true;
-			representation[1][0] = true;
-			representation[1][1] = true;
-			representation[1][2] = true;
-			break;
-		case L:
-			representation = new boolean[3][3];
-			representation[0][0] = true;
-			representation[0][1] = true;
-			representation[0][2] = true;
-			representation[1][2] = true;
-			break;
-		case S:
-			representation = new boolean[4][2];
-			representation[1][0] = true;
-			representation[2][0] = true;
-			representation[0][1] = true;
-			representation[1][1] = true;
-			colOffset = 4;
-			break;
-		case T:
-			representation = new boolean[3][3];
-			representation[2][0] = true;
-			representation[0][0] = true;
-			representation[1][0] = true;
-			representation[1][1] = true;
-			break;
-		case Z:
-			representation = new boolean[3][2];
-			representation[0][0] = true;
-			representation[1][0] = true;
-			representation[1][1] = true;
-			representation[2][1] = true;
-			break;
-		}
-	}
-
-	public Tetromino(FigureO figure)
-	{
-		this(TetrominoType.O);
-	}
-
-	public Tetromino(FigureI figure)
-	{
-		this(TetrominoType.I);
-	}
-
-	public Tetromino(FigureJ figure)
-	{
-		this(TetrominoType.J);
-	}
-
-	public Tetromino(FigureL figure)
-	{
-		this(TetrominoType.L);
-	}
-
-	public Tetromino(FigureS figure)
-	{
-		this(TetrominoType.S);
-	}
-
-	public Tetromino(FigureT figure)
-	{
-		this(TetrominoType.T);
-	}
-
-	public Tetromino(FigureZ figure)
-	{
-		this(TetrominoType.Z);
 	}
 
 	public Tetromino(Tetromino tetromino)
@@ -263,5 +169,10 @@ public class Tetromino
 				}
 		System.out.println("---" +  h);
 		return h;
+	}
+
+	public TetrominoType getType()
+	{
+		return type;
 	}
 }
