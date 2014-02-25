@@ -9,7 +9,7 @@ public class TetrominoI extends Tetromino
 	{
 		super();
 		type = TetrominoType.I;
-		representation = new boolean[][]{{true},{true},{true},{true}};
+		representation = new boolean[][]{{true,true,true,true}};
 		colOffset = 3;
 	}
 
