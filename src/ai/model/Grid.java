@@ -96,6 +96,7 @@ public class Grid implements Comparable<Grid>
 	 */
 	public void turnClockwise()
 	{
+		//tetromino.turnCounterClockwise(this);
 		tetromino.turnClockwise(this);
 	}
 

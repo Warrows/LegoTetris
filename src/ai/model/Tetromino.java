@@ -169,7 +169,7 @@ public class Tetromino
 	public void fall()
 	{
 		rowOffset += 1;
-		height --;
+		height--;
 	}
 
 	/**
@@ -246,7 +246,9 @@ public class Tetromino
 
 	public int getHeightPosition()
 	{
-		return height;
+		if (height > 0)
+			return height;
+		return 0;
 	}
 
 	public int getHeight()
@@ -257,8 +259,9 @@ public class Tetromino
 				if (representation[j][i])
 				{
 					h++;
-					break;
+					j = representation.length;
 				}
+		System.out.println("---" +  h);
 		return h;
 	}
 }
