@@ -368,8 +368,6 @@ public class Grid implements Comparable<Grid>
 
 	private double landingHeight()
 	{
-
-		System.out.println(tetromino.getHeightPosition() + "->" + tetromino.getHeight());
 		return (tetromino.getHeightPosition() + tetromino.getHeight()) / 2;
 	}
 }

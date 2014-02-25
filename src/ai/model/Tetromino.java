@@ -31,10 +31,10 @@ public abstract class Tetromino
 
 	public boolean turnClockwise(Grid grid)
 	{
-		if (type == TetrominoType.Z)
+		/*if (type == TetrominoType.Z)
 			colOffset++;
 		if (type == TetrominoType.T)
-			return turnCounterClockwise(grid);
+			return turnCounterClockwise(grid);*/
 		final int M = representation.length;
 		final int N = representation[0].length;
 		boolean[][] ret = new boolean[N][M];
@@ -152,9 +152,10 @@ public abstract class Tetromino
 
 	public int getHeightPosition()
 	{
-		if (height > 0)
+		return rowOffset;
+		/*if (height > 0)
 			return height;
-		return 0;
+		return 0;*/
 	}
 
 	public int getHeight()
@@ -167,7 +168,6 @@ public abstract class Tetromino
 					h++;
 					j = representation.length;
 				}
-		System.out.println("---" +  h);
 		return h;
 	}
 

@@ -9,7 +9,7 @@ public class TetrominoL extends Tetromino
 	{
 		super();
 		type = TetrominoType.L;
-		representation = new boolean[][]{{true,false},{true,false},{true,true}};
+		representation = new boolean[][]{{true,true,true},{false,false,true}};
 	}
 
 	public TetrominoL(Tetromino tetromino)

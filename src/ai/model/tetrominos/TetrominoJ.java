@@ -9,7 +9,7 @@ public class TetrominoJ extends Tetromino
 	{
 		super();
 		type = TetrominoType.J;
-		representation = new boolean[][]{{false,true},{false,true},{true,true}};
+		representation = new boolean[][]{{false,false,true},{true,true,true}};
 	}
 
 	public TetrominoJ(Tetromino tetromino)
