@@ -5,10 +5,16 @@ import ai.input.GameInput;
 
 public class JetrisMain
 {
+	private static JetrisMainFrame mf;
+	
 	public static void main(String[] args)
 	{
-		JetrisMainFrame mf = new JetrisMainFrame();
-		// TODO
+		mf = new JetrisMainFrame();
+		solve();
+	}
+	
+	public static void solve()
+	{
 		(new Thread(new IAMain(new GameInput(mf)))).start();
 	}
 

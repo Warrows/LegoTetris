@@ -24,22 +24,19 @@ public class IAMain implements Runnable
 	@Override
 	public void run()
 	{
-		while (!tdi.isGameOver())
+		// Acquisition de la grille
+		currentState = tdi.getTetrisData();
+		// création des sous grilles
+		possibleStates = currentState.children();
+		// calcul du chemin entre la grille actuelle et le sous grille
+		// envoi du chemin
+		play(getCommands());
+		try
 		{
-			// Acquisition de la grille
-			currentState = tdi.getTetrisData();
-			// création des sous grilles
-			possibleStates = currentState.children();
-			// calcul du chemin entre la grille actuelle et le sous grille
-			// envoi du chemin
-			play(getCommands());
-			try
-			{
-				Thread.sleep(100);
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
+			Thread.sleep(100);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
 		}
 	}
 

@@ -734,6 +734,7 @@ public class JetrisMainFrame extends JFrame
 		if (tg.addFigure(f))
 		{
 			dropNext();
+			JetrisMain.solve();
 			f.setOffset(nextX, nextY);
 			paintTG();
 		} else
