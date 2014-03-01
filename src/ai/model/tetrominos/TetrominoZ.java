@@ -25,19 +25,21 @@ public class TetrominoZ extends Tetromino
 	@Override
 	public boolean rotate(Grid grid)
 	{
-		if (rotation % 2 == 1)
+		switch (rotation % 2)
 		{
+		case 0:
 			representation = new boolean[][]
-					{
-					{ true, false },
-					{ true, true },
-					{ false, true } };
-		} else
-		{
+			{
+			{ true, false },
+			{ true, true },
+			{ false, true } };
+			break;
+		case 1:
 			representation = new boolean[][]
-					{
-					{ false, true, true },
-					{ true, true,false } };
+			{
+			{ false, true, true },
+			{ true, true, false } };
+			break;
 		}
 		return wellPlaced(grid);
 	}
