@@ -58,6 +58,7 @@ public class IAMain implements Runnable
 			list.add(Command.MOVE_LEFT);
 		for (int i = 0; i < objective.getDown(); i++)
 			list.add(Command.MOVE_DOWN);
+		System.out.println(list);
 		return list;
 	}
 

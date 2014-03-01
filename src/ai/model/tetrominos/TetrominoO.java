@@ -1,5 +1,6 @@
 package ai.model.tetrominos;
 
+import ai.model.Grid;
 import ai.model.Tetromino;
 import ai.model.TetrominoType;
 
@@ -15,5 +16,11 @@ public class TetrominoO extends Tetromino
 	public TetrominoO(Tetromino tetromino)
 	{
 		super(tetromino);
+	}
+	
+	@Override
+	public boolean rotate(Grid grid)
+	{
+		return true;
 	}
 }

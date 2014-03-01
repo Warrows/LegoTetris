@@ -10,7 +10,9 @@ import javax.swing.JLabel;
 
 public class HTMLLink extends JLabel implements MouseListener{
     
-    private String url;
+	private static final long serialVersionUID = -7642328903932391435L;
+
+	private String url;
     
     private boolean copyToClipBoard;
     
@@ -36,7 +38,7 @@ public class HTMLLink extends JLabel implements MouseListener{
     private void startBrowser() {
         String cmdLine = "cmd.exe /c start " + url;
         try {
-            Process p = Runtime.getRuntime().exec(cmdLine);
+            Runtime.getRuntime().exec(cmdLine);
         } catch (Exception e) {
             e.printStackTrace();
         }

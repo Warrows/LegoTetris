@@ -109,7 +109,7 @@ public class Grid implements Comparable<Grid>
 	public boolean moveRight()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol() + 1, cell.getRow()))
+			if (isOccupied(cell.getCol() + 1,cell.getRow()))
 				return false;
 		tetromino.moveRight();
 		return true;
@@ -155,7 +155,6 @@ public class Grid implements Comparable<Grid>
 
 	public String toString()
 	{
-
 		String str = "\n";
 		for (int row = 0; row < HEIGHT; row++)
 		{
@@ -211,18 +210,26 @@ public class Grid implements Comparable<Grid>
 		gridA = new Grid(this);
 		for (int i = 0; i < 4; i++)
 		{
-			while (gridA.moveLeft())
-				t--;
-			do
+			while (gridA.moveRight())
 			{
+				t++;
 				gridB = new Grid(gridA);
 				while (gridB.moveDown())
 					gridB.down++;
 				gridB.rotations = i;
 				gridB.translations = t;
 				children.add(gridB);
-				t++;
-			} while (gridA.moveRight());
+			}
+			while (gridA.moveLeft())
+			{
+				t--;
+				gridB = new Grid(gridA);
+				while (gridB.moveDown())
+					gridB.down++;
+				gridB.rotations = i;
+				gridB.translations = t;
+				children.add(gridB);
+			} 
 			gridA.turnClockwise();
 		}
 		return children;
@@ -237,11 +244,11 @@ public class Grid implements Comparable<Grid>
 	public double compute()
 	{
 		double val = 0;
-		val += -4.500158825082766 * landingHeight();
-		val += 3.4181268101392694 * rowsEliminated();
+		val += -4.500158825082766  * landingHeight();
+		val +=  3.4181268101392694 * rowsEliminated();
 		val += -3.2178882868487753 * rowsTransitions();
-		val += -9.348695305445199 * columnsTransitions();
-		val += -7.899265427351652 * holesNumber();
+		val += -9.348695305445199  * columnsTransitions();
+		val += -7.899265427351652  * holesNumber();
 		val += -3.3855972247263626 * wellSums();
 		return val;
 	}

@@ -3,22 +3,19 @@ package ai.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import ai.model.tetrominos.*;
-import net.sourceforge.jetris.figures.*;
-
 public abstract class Tetromino
 {
 	protected TetrominoType type;
 	protected int rowOffset;
 	protected int colOffset;
-	private int height;
 	protected boolean[][] representation;
+	protected int rotation;
 
 	public Tetromino()
 	{
 		rowOffset = 0;
 		colOffset = 4;
-		height = Grid.HEIGHT;
+		rotation = 0;
 	}
 
 	public Tetromino(Tetromino tetromino)
@@ -31,10 +28,14 @@ public abstract class Tetromino
 
 	public boolean turnClockwise(Grid grid)
 	{
-		/*if (type == TetrominoType.Z)
-			colOffset++;
-		if (type == TetrominoType.T)
-			return turnCounterClockwise(grid);*/
+		rotation ++;
+		if (rotate(grid))
+			return true;
+		turnCounterClockwise(grid);
+		return false;
+	}
+	/*{
+		
 		final int M = representation.length;
 		final int N = representation[0].length;
 		boolean[][] ret = new boolean[N][M];
@@ -49,9 +50,15 @@ public abstract class Tetromino
 		}
 		representation = ret;
 		return true;
-	}
+	}*/
+	
+	protected abstract boolean rotate(Grid grid);
 
-	public boolean turnCounterClockwise(Grid grid)
+	protected void turnCounterClockwise(Grid grid)
+	{
+		rotation --;
+	}
+	/*
 	{
 		final int M = representation.length;
 		final int N = representation[0].length;
@@ -67,7 +74,7 @@ public abstract class Tetromino
 		}
 		representation = ret;
 		return true;
-	}
+	}*/
 
 	/**
 	 * This does not check anything, only change data
@@ -75,7 +82,6 @@ public abstract class Tetromino
 	public void fall()
 	{
 		rowOffset += 1;
-		height--;
 	}
 
 	/**
@@ -92,6 +98,21 @@ public abstract class Tetromino
 	public void moveLeft()
 	{
 		colOffset -= 1;
+	}
+
+	protected boolean wellPlaced(Grid grid)
+	{
+		for (int r = 0; r < representation.length; r++)
+		{
+			for (int c = 0; c < representation[0].length; c++)
+			{
+				if (grid.isOccupied(c + colOffset,r + rowOffset))
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public Set<Cell> getCells(Grid grid)

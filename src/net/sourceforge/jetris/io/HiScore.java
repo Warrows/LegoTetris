@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.LinkedList;
 
 
 public class HiScore implements Serializable {
     
-    public int score;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5815571433139439122L;
+	public int score;
     public int lines;
     public int h, m, s; //TIME Not Used yet
     public String name;
