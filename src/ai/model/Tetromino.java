@@ -173,23 +173,7 @@ public abstract class Tetromino
 
 	public int getHeightPosition()
 	{
-		return rowOffset;
-		/*if (height > 0)
-			return height;
-		return 0;*/
-	}
-
-	public int getHeight()
-	{
-		int h = 0;
-		for (int i = 0; i < representation[0].length; i++)
-			for (int j = 0; j < representation.length; j++)
-				if (representation[j][i])
-				{
-					h++;
-					j = representation.length;
-				}
-		return h;
+		return 20 - rowOffset;
 	}
 
 	public TetrominoType getType()
