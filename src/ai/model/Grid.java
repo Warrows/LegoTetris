@@ -13,6 +13,7 @@ public class Grid implements Comparable<Grid>
 	public static final int HEIGHT = 20;
 	private Cell[][] board;
 	private Tetromino tetromino;
+	private Tetromino nextTetromino;
 
 	private int rotations, translations, down;
 

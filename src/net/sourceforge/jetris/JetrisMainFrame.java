@@ -220,10 +220,10 @@ public class JetrisMainFrame extends JFrame
 			public void keyPressed(KeyEvent e)
 			{
 				int code = e.getKeyCode();
-				if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT)
+				if (code == KeyEvent.VK_U || code == KeyEvent.VK_LEFT)
 				{
 					moveLeft();
-				} else if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT)
+				} else if (code == KeyEvent.VK_E || code == KeyEvent.VK_RIGHT)
 				{
 					moveRight();
 				} else if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN)

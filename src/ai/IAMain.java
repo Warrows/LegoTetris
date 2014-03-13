@@ -7,6 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
 
+import ai.executor.Executor;
+import ai.executor.InternExecutor;
+import ai.executor.MixtExecutor;
+import ai.executor.PhysicalExecutor;
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
 
@@ -53,14 +57,14 @@ public class IAMain implements Runnable
 			list.add(Command.MOVE_RIGHT);
 		for (int i = 0; i > objective.getTranslation(); i--)
 			list.add(Command.MOVE_LEFT);
-		for (int i = 0; i < objective.getDown(); i++)
-			list.add(Command.MOVE_DOWN);
+		list.add(Command.MOVE_DOWN);
 		System.out.println(list);
 		return list;
 	}
 
 	private void play(List<Command> commands)
 	{
+		Executor ex = new MixtExecutor();
 		try
 		{
 			Thread.sleep(50);
@@ -70,7 +74,7 @@ public class IAMain implements Runnable
 		}
 		for (Command c : commands)
 		{
-			execute(c);
+			ex.execute(c);
 			try
 			{
 				Thread.sleep(50);
@@ -78,31 +82,6 @@ public class IAMain implements Runnable
 			{
 				e.printStackTrace();
 			}
-		}
-	}
-
-	private void execute(Command c)
-	{
-		try
-		{
-			switch (c)
-			{
-			case MOVE_DOWN:
-				new Robot().keyPress(KeyEvent.VK_S);
-				break;
-			case MOVE_LEFT:
-				new Robot().keyPress(KeyEvent.VK_A);
-				break;
-			case MOVE_RIGHT:
-				new Robot().keyPress(KeyEvent.VK_D);
-				break;
-			case ROTATE:
-				new Robot().keyPress(KeyEvent.VK_W);
-				break;
-			}
-		} catch (AWTException e)
-		{
-			e.printStackTrace();
 		}
 	}
 }
