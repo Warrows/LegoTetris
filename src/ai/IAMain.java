@@ -64,7 +64,7 @@ public class IAMain implements Runnable
 
 	private void play(List<Command> commands)
 	{
-		Executor ex = new MixtExecutor();
+		Executor ex = new InternExecutor();
 		try
 		{
 			Thread.sleep(50);

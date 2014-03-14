@@ -734,7 +734,6 @@ public class JetrisMainFrame extends JFrame
 		if (tg.addFigure(f))
 		{
 			dropNext();
-			JetrisMain.solve();
 			f.setOffset(nextX, nextY);
 			paintTG();
 		} else
@@ -883,6 +882,7 @@ public class JetrisMainFrame extends JFrame
 
 		isNewFigureDroped = true;
 		updateStats();
+		JetrisMain.solve();
 	}
 
 	private void moveLeft()
