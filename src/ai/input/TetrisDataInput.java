@@ -4,6 +4,6 @@ import ai.model.Grid;
 
 public interface TetrisDataInput
 {
-	public Grid getTetrisData();
+	public Grid getTetrisData() throws NoInputException;
 	public boolean isGameOver();
 }

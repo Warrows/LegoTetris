@@ -6,6 +6,7 @@ import java.util.SortedSet;
 
 import ai.executor.Executor;
 import ai.executor.InternExecutor;
+import ai.input.NoInputException;
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
 
@@ -24,13 +25,17 @@ public class IAMain implements Runnable
 	public void run()
 	{
 		// Acquisition de la grille
-		currentState = tdi.getTetrisData();
-		// création des sous grilles
-		possibleStates = currentState.children();
-		System.out.println(possibleStates);
-		// calcul du chemin entre la grille actuelle et le sous grille
-		// envoi du chemin
-		play(getCommands());
+		try
+		{
+			currentState = tdi.getTetrisData();
+			// création des sous grilles
+			possibleStates = currentState.children();
+			// calcul du chemin entre la grille actuelle et le sous grille
+			// envoi du chemin
+			play(getCommands());
+		} catch (NoInputException e)
+		{
+		}
 		try
 		{
 			Thread.sleep(100);

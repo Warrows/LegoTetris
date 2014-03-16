@@ -14,9 +14,11 @@ public class GameInput implements TetrisDataInput
 	}
 
 	@Override
-	public Grid getTetrisData()
+	public Grid getTetrisData() throws NoInputException
 	{
 		g = new Grid();
+		if (jmf == null)
+			throw new NoInputException();
 		g.setFigure(jmf.getFigure());
 		for (int row = 0; row < 20; row++)
 			for (int col = 0; col < 10; col++)
