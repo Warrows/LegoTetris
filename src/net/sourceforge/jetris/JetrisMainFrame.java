@@ -194,7 +194,7 @@ public class JetrisMainFrame extends JFrame  {
     public JetrisMainFrame() {
         super(NAME);
         
-        this.setSize(1350, 850);        
+        this.setSize(1360, 860);        
         //pack();
         this.setResizable(false);
 
