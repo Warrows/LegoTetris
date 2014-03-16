@@ -82,7 +82,7 @@ public class JetrisMainFrame extends JFrame  {
 				return false;
 		}
 
-		return !cells[row][col].getBackground().equals(Color.WHITE);
+		return !cells[row][col].getBackground().equals(Color.DARK_GRAY);
 	}
     
     private class GridThread extends Thread {
@@ -531,7 +531,7 @@ public class JetrisMainFrame extends JFrame  {
         r.setBorder(new EtchedBorder());
         r.add(Box.createRigidArea(new Dimension(30,0)));
         
-        JLabel jL = new JLabel("ENSITRIS : Ferric, Lebarbe, Meunier, Carrozani, Furon  ");
+        JLabel jL = new JLabel("ENSITRIS : Ferric, Le Barbé, Meunier, Carrozani, Furon  ");
         jL.setFont(font);
         
         r.add(jL);

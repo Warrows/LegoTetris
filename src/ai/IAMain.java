@@ -1,16 +1,11 @@
 package ai;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
 
 import ai.executor.Executor;
 import ai.executor.InternExecutor;
-import ai.executor.MixtExecutor;
-import ai.executor.PhysicalExecutor;
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
 
