@@ -15,6 +15,7 @@ public class JetrisMain
 	
 	public static void solve()
 	{
+		System.out.println("---");
 		(new Thread(new IAMain(new GameInput(mf)))).start();
 	}
 

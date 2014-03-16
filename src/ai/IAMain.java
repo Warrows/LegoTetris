@@ -32,6 +32,7 @@ public class IAMain implements Runnable
 		currentState = tdi.getTetrisData();
 		// création des sous grilles
 		possibleStates = currentState.children();
+		System.out.println(possibleStates);
 		// calcul du chemin entre la grille actuelle et le sous grille
 		// envoi du chemin
 		play(getCommands());

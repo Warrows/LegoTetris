@@ -1,6 +1,8 @@
 package net.sourceforge.jetris;
 
 /* MainFrame created on 14.09.2006 */
+import gui.MainLayout;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
