@@ -173,11 +173,13 @@ public abstract class Tetromino
 
 	public int getHeightPosition()
 	{
-		return 20 - rowOffset;
+		return Grid.HEIGHT - rowOffset - getHeigt();
 	}
 
 	public TetrominoType getType()
 	{
 		return type;
 	}
+
+	public abstract int getHeigt();
 }

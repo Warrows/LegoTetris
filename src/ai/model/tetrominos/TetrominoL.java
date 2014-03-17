@@ -52,4 +52,12 @@ public class TetrominoL extends Tetromino
 		}
 		return wellPlaced(grid);
 	}
+
+	@Override
+	public int getHeigt()
+	{
+		if (rotation % 2 == 0)
+			return 3;
+		return 2;
+	}
 }

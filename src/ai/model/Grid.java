@@ -61,7 +61,7 @@ public class Grid implements Comparable<Grid>
 			break;
 		case Z:
 			this.tetromino = new TetrominoZ(grid.tetromino);
-			break;		
+			break;
 		}
 		rotations = 0;
 		translations = 0;
@@ -110,7 +110,7 @@ public class Grid implements Comparable<Grid>
 	public boolean moveRight()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol() + 1,cell.getRow()))
+			if (isOccupied(cell.getCol() + 1, cell.getRow()))
 				return false;
 		tetromino.moveRight();
 		return true;
@@ -121,7 +121,7 @@ public class Grid implements Comparable<Grid>
 	 */
 	public void turnClockwise()
 	{
-		//tetromino.turnCounterClockwise(this);
+		// tetromino.turnCounterClockwise(this);
 		tetromino.turnClockwise(this);
 	}
 
@@ -230,7 +230,7 @@ public class Grid implements Comparable<Grid>
 				gridB.rotations = i;
 				gridB.translations = t;
 				children.add(gridB);
-			} 
+			}
 			gridA.turnClockwise();
 		}
 		return children;
@@ -245,72 +245,76 @@ public class Grid implements Comparable<Grid>
 	public double compute()
 	{
 		double val = 0;
-		val += -4.500158825082766  * landingHeight();
-		val +=  3.4181268101392694 * rowsEliminated();
-		val += -3.2178882868487753 * rowsTransitions();
-		val += -9.348695305445199  * columnsTransitions();
-		val += -7.899265427351652  * holesNumber();
-		val += -3.3855972247263626 * wellSums();
+		val += -4.500158825082766 * landingHeight(); 
+		val += 3.4181268101392694 * rowsEliminated();// OK
+		val += -3.2178882868487753 * rowsTransitions();//OK
+		val += -9.348695305445199 * columnsTransitions();//OK
+		val += -7.899265427351652 * holesNumber();// OK
+		val += -3.3855972247263626 * wellSums(); // OK
 		return val;
 	}
 
 	private double wellSums()
 	{
 		double i = 0;
-		for (int col = 0; col < WIDTH; col ++)
-			i+= wells(0, col);
-		
+		for (int row = 0; row < HEIGHT; row++)
+			for (int col = 0; col < WIDTH; col++)
+				if (!occupied(col, row) && occupied(col - 1, row)
+						&& occupied(col + 1, row))
+					i += wellValue(col, row);
 		return i;
 	}
 
-	private double wells(int row, int col)
+	private double wellValue(int col, int row)
 	{
-		if (row > HEIGHT)
-			return 0;
-		double next = wells(row + 1, col);
-		if (next == -1 && !occupied(col, row) && occupied(col-1, row) && occupied(col+1, row))
-			return 2;
-		if (next == 0 && !occupied(col, row) && occupied(col-1, row) && occupied(col+1, row))
-			return -1;
-		if (next > 0  && !occupied(col, row) && occupied(col-1, row) && occupied(col+1, row))
-			return next + 1;
-		return 0;
+		double i = 0;
+		int r = row;
+		do
+		{
+			i++;
+			r++;
+		} while (!occupied(col, r));
+		return i;
 	}
 
 	private double holesNumber()
 	{
 		double i = 0;
-		for (int col = 0; col < WIDTH; col ++)
-			for (int row = 0; row < HEIGHT; row ++)
-				if (!occupied(col, row))
-					i += testHoleColumn(row,col);
+		for (int col = 0; col < WIDTH; col++)
+			i += countHolesinColumn(col);
 		return i;
 	}
-	
-	private double testHoleColumn(int row, int col)
+
+	private double countHolesinColumn(int col)
 	{
-		for (int i = row-1; i>=0; i--)
-			if (occupied(col,i))
-			{
+		for (int row = 0; row < HEIGHT; row++)
+			if (occupied(col, row))
+				return countHolesBelowCase(col, row);
+		return 0;
+	}
+
+	private double countHolesBelowCase(int col, int row)
+	{
+		for (int i = row + 1; i <= HEIGHT; i++)
+			if (!occupied(col, i))
 				return 1;
-			}
 		return 0;
 	}
 
 	private double columnsTransitions()
 	{
 		double i = 0;
-		for (int k = 0; k < HEIGHT; k++)
+		for (int col = 0; col < WIDTH; col++)
 		{
-			boolean b = false;
-			for (Cell[] row : board)
-				if ((row[k].isOccupied() || tetromino.getCells(this).contains(
-						row[k])) != b)
+			boolean b = true;
+			for (int row = 0; row < HEIGHT; row++)
+			{
+				if (occupied(col, row) != b)
 				{
 					i++;
-					b = (row[k].isOccupied() || tetromino.getCells(this)
-							.contains(row[k]));
+					b = occupied(col, row);
 				}
+			}
 		}
 		return i;
 	}
@@ -322,15 +326,17 @@ public class Grid implements Comparable<Grid>
 	private double rowsTransitions()
 	{
 		double i = 0;
-		for (Cell[] col : board)
+		for (int row = 0; row < HEIGHT; row++)
 		{
-			boolean b = false;
-			for (Cell c : col)
-				if ((c.isOccupied() || tetromino.getCells(this).contains(c)) != b)
+			boolean b = true;
+			for (int col = 0; col < WIDTH; col++)
+			{
+				if (occupied(col, row) != b)
 				{
 					i++;
-					b = (c.isOccupied() || tetromino.getCells(this).contains(c));
+					b = occupied(col, row);
 				}
+			}
 		}
 		return i;
 	}
@@ -338,25 +344,32 @@ public class Grid implements Comparable<Grid>
 	private double rowsEliminated()
 	{
 		double d = 0;
-		for (int i = 0; i < 20; i++)
+		for (int i = 0; i < HEIGHT; i++)
 			d += testRow(i);
 		return d;
 	}
 
+	private double testRow(int row)
+	{
+		for (int i = 0; i < WIDTH; i++)
+			if (!occupied(i, row))
+				return 0;
+		return 1;
+	}
+
+	/**
+	 * Test si la case située à la colonne col , ligne row est occupé
+	 * 
+	 * @param col
+	 * @param row
+	 * @return true si la case est hors du jeu
+	 */
 	private boolean occupied(int col, int row)
 	{
 		if (col < 0 || row < 0 || col >= WIDTH || row >= HEIGHT)
 			return true;
 		return board[col][row].isOccupied()
 				|| tetromino.getCells(this).contains(getCell(row, col));
-	}
-
-	private double testRow(int row)
-	{
-		for (int i = 0; i < 10; i++)
-			if (!occupied(i, row))
-				return 0;
-		return 1;
 	}
 
 	public int getRotation()
@@ -376,6 +389,6 @@ public class Grid implements Comparable<Grid>
 
 	private double landingHeight()
 	{
-		return (tetromino.getHeightPosition()) / 2;
+		return tetromino.getHeightPosition() + tetromino.getHeigt()/2;
 	}
 }

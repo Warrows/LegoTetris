@@ -23,4 +23,10 @@ public class TetrominoO extends Tetromino
 	{
 		return true;
 	}
+
+	@Override
+	public int getHeigt()
+	{
+		return 2;
+	}
 }

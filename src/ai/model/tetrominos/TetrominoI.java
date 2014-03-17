@@ -35,11 +35,16 @@ public class TetrominoI extends Tetromino
 		{
 			representation = new boolean[][]
 			{
-			{ true },
-			{ true },
-			{ true },
-			{ true } };
+			{ true, true, true, true } };
 		}
 		return wellPlaced(grid);
+	}
+
+	@Override
+	public int getHeigt()
+	{
+		if (rotation % 2 == 0)
+			return 4;
+		return 1;
 	}
 }
