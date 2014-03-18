@@ -66,19 +66,12 @@ public class IAMain implements Runnable
 	private void play(List<Command> commands)
 	{
 		Executor ex = new InternExecutor();
-		try
-		{
-			Thread.sleep(50);
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
 		for (Command c : commands)
 		{
 			ex.execute(c);
 			try
 			{
-				Thread.sleep(50);
+				Thread.sleep(5);
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();
