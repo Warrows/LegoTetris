@@ -123,13 +123,11 @@ public class Processing {
 		Mat hierarchy = new Mat();
 		Imgproc.findContours(img, contours, hierarchy, 3, 2);
 		zones = new Vector<MatOfPoint>();
-		List<MatOfPoint2f> zones2 = new Vector<MatOfPoint2f>();
 		MatOfPoint2f poly = new MatOfPoint2f();
 		for (int i=0 ; i<contours.size() ; i++) {
 			Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(i).toArray()), poly, 4.0, true);
 			if (poly.toList().size() == 4) {
 				zones.add(contours.get(i));
-				zones2.add(poly);
 			}
 		}
 		Collections.sort(zones, new ComparaisonContour());
