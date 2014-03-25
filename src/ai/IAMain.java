@@ -6,6 +6,7 @@ import java.util.SortedSet;
 
 import ai.executor.Executor;
 import ai.executor.InternExecutor;
+import ai.executor.PhysicalExecutor;
 import ai.input.NoInputException;
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
@@ -71,7 +72,7 @@ public class IAMain implements Runnable
 			ex.execute(c);
 			try
 			{
-				Thread.sleep(5);
+				Thread.sleep(1);
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();

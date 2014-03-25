@@ -206,15 +206,15 @@ public class JetrisMainFrame extends JFrame  {
 
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
-                if(code == KeyEvent.VK_U || code == KeyEvent.VK_LEFT) {
+                if(code == KeyEvent.VK_T || code == KeyEvent.VK_LEFT) {
                     moveLeft();
-                } else if(code == KeyEvent.VK_E || code == KeyEvent.VK_RIGHT) {
+                } else if(code == KeyEvent.VK_O || code == KeyEvent.VK_RIGHT) {
                     moveRight();
-                } else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+                } else if(code == KeyEvent.VK_V || code == KeyEvent.VK_DOWN) {
                     moveDown();
                 } else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
                     rotation();
-                } else if(code == KeyEvent.VK_SPACE) {
+                } else if(code == KeyEvent.VK_SEMICOLON || code == KeyEvent.VK_SPACE) {
                     moveDrop();
                 } /*else if(code == KeyEvent.VK_R) { //Only for the applet needed
                     restart();
