@@ -21,12 +21,51 @@ public class Processing {
 	private static Mat source, img2;
 	private static List<MatOfPoint> zones;
 	private static Imshow game = new Imshow("Jeu");
+	private static Imshow next = new Imshow("Suivants");
 	
 	private static Mat img2bw (Mat src) {
 		Mat img = new Mat();
 		Imgproc.cvtColor(src, img, Imgproc.COLOR_BGR2GRAY);
 		Imgproc.threshold(img, img, 120, 255, Imgproc.THRESH_BINARY);
 		return img;
+	}
+
+	public static void getNext () {
+		if (zones.size() > 2) {
+			MatOfPoint2f zone2 = new MatOfPoint2f();
+			Imgproc.approxPolyDP(new MatOfPoint2f(zones.get(2).toArray()), zone2, 4.0, true);
+			double[] coins = zone2.get(0, 0);
+			int minCol = (int)coins[0];
+			int maxCol = minCol;
+			int minLig = (int)coins[1];
+			int maxLig = minLig;
+			for (int i=1 ; i<zone2.rows() ; i++) {
+				coins = zone2.get(i, 0);
+				if ((int)coins[0] < minCol) {
+					minCol = (int)coins[0];
+				}
+				if ((int)coins[0] > maxCol) {
+					maxCol = (int)coins[0];
+				}
+				if ((int)coins[1] < minLig) {
+					minLig = (int)coins[1];
+				}
+				if ((int)coins[1] > maxLig) {
+					maxLig = (int)coins[1];
+				}
+			}
+			Rect roi = new Rect(minCol, minLig, maxCol-minCol, maxLig-minLig);
+			Mat src = new Mat(source.clone(), roi);
+			Mat img = new Mat(img2.clone(), roi);
+			List<MatOfPoint> contours = new Vector<MatOfPoint>();
+			Mat hierarchy = new Mat();
+			Imgproc.findContours(img, contours, hierarchy, 3, 2);
+			Collections.sort(contours, new ComparaisonContour());
+			for (int i=0 ; i<contours.size() ; i++) {
+				Imgproc.drawContours(src, contours, i, new Scalar(0, 255, 0), 2);
+			}
+			next.showImage(src);
+		}
 	}
 
 	public static List<List<Integer>> getJeu () {
