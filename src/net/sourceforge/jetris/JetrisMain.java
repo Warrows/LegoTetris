@@ -12,14 +12,14 @@ public class JetrisMain
 	public static void main(String[] args)
 	{
 		mf = new JetrisMainFrame();
-		Vision.show();
+		//Vision.show();
 		solve();
 	}
 	
 	public static void solve()
 	{
-		//(new Thread(new IAMain(new GameInput(mf)))).start();
-		(new Thread(new IAMain(new CameraInput()))).start();
+		(new Thread(new IAMain(new GameInput(mf)))).start();
+		//(new Thread(new IAMain(new CameraInput()))).start();
 	}
 
 }
