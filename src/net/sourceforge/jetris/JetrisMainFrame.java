@@ -1,13 +1,10 @@
 package net.sourceforge.jetris;
-/* Frame created on 14.09.2006 */
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 /*import javax.swing.text.html.HTML;*/
-
-
-
 
 import res.ResClass;
 
@@ -29,18 +26,10 @@ public class JetrisMainFrame extends JFrame  {
 	
 	private static final String NAME = "ENSITRIS";
     private static final int CELL_H = 24;
-    
+	
     private Font font;
     private JPanel playPanel;
     private JPanel[][] cells;
-    //private JPanel[][] next;
-    
-    private JLabel score;
-    private JLabel lines;
-    //private JLabel time;
-    private JLabel[] statsF;
-    private JLabel[] statsL;
-    //private JLabel levelLabel;
     private JLabel hiScoreLabel;
     
     private TetrisGrid tg;
@@ -72,6 +61,17 @@ public class JetrisMainFrame extends JFrame  {
     
     //private JPanel hiScorePanel;
     //private PublishHandler pH;
+
+	public boolean isOccupied(int row, int col)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (row == f.arrY[j] + f.offsetY && col == f.arrX[j] + f.offsetX)
+				return false;
+		}
+
+		return !cells[row][col].getBackground().equals(Color.DARK_GRAY);
+	}
     
     private class GridThread extends Thread {
         
@@ -140,7 +140,7 @@ public class JetrisMainFrame extends JFrame  {
                         g.drawString("GAME OVER", 47, 250);
 
                     } else if(isPause) {
-                        mainLayout.time.setText("PAUSED");
+                    	mainLayout.time.setText("PAUSED");
                     } else if(count >= 1000) {
                         count = 0;
                         incSec();
@@ -182,7 +182,7 @@ public class JetrisMainFrame extends JFrame  {
     public JetrisMainFrame() {
         super(NAME);
 
-        this.setSize(1250, 850);        
+        this.setSize(1360, 860);        
         //pack();
         this.setResizable(false);
 
@@ -604,8 +604,8 @@ public class JetrisMainFrame extends JFrame  {
     private void showNext(Figure f) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                mainLayout.next[i][j].setBackground(Color.DARK_GRAY/*nextBg*/);
-                mainLayout.next[i][j].setBorder(BorderFactory.createEmptyBorder());
+            	mainLayout.next[i][j].setBackground(nextBg);
+            	mainLayout.next[i][j].setBorder(BorderFactory.createEmptyBorder());
             }
         }
         
@@ -632,7 +632,8 @@ public class JetrisMainFrame extends JFrame  {
         
 
         isNewFigureDroped = true;
-        //updateStats();
+        //updateStats();	
+        JetrisMain.solve();
     }
     
     private void moveLeft() {
@@ -865,15 +866,14 @@ public class JetrisMainFrame extends JFrame  {
             }
         }
     }
+
+	public boolean isGameOver()
+	{
+		return isGameOver;
+	}
+
+	public Figure getFigure()
+	{
+		return f;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
