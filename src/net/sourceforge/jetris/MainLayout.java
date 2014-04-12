@@ -1,4 +1,4 @@
-package gui;
+package net.sourceforge.jetris;
 
 import java.awt.Color;
 import java.awt.Dimension;
