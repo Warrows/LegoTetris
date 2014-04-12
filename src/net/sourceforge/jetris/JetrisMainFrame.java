@@ -6,6 +6,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 /*import javax.swing.text.html.HTML;*/
 
+
 import res.ResClass;
 
 import java.awt.*;
@@ -24,7 +25,7 @@ public class JetrisMainFrame extends JFrame  {
 
 	private MainLayout mainLayout = new MainLayout(getPlayPanel());
 	
-	private static final String NAME = "ENSITRIS";
+	private static final String NAME = "JETRIS";
     private static final int CELL_H = 24;
 	
     private Font font;
@@ -421,7 +422,7 @@ public class JetrisMainFrame extends JFrame  {
         r.setBorder(new EtchedBorder());
         r.add(Box.createRigidArea(new Dimension(30,0)));
         
-        JLabel jL = new JLabel("ENSITRIS : Ferric, Lebarbe, Meunier, Carozzani, Furon  ");
+        JLabel jL = new JLabel("JETRIS : Ferric, Lebarbe, Meunier, Carozzani, Furon  ");
         jL.setFont(font);
         
         r.add(jL);
@@ -604,7 +605,7 @@ public class JetrisMainFrame extends JFrame  {
     private void showNext(Figure f) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-            	mainLayout.next[i][j].setBackground(nextBg);
+            	mainLayout.next[i][j].setBackground(Color.DARK_GRAY);
             	mainLayout.next[i][j].setBorder(BorderFactory.createEmptyBorder());
             }
         }
