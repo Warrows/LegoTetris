@@ -52,7 +52,6 @@ public class IAMain implements Runnable
 		if (possibleStates.isEmpty())
 			return list;
 		Grid objective = possibleStates.first();
-		System.out.println(objective);
 		for (int i = 0; i < objective.getRotation(); i++)
 			list.add(Command.ROTATE);
 		for (int i = 0; i < objective.getTranslation(); i++)
@@ -60,7 +59,6 @@ public class IAMain implements Runnable
 		for (int i = 0; i > objective.getTranslation(); i--)
 			list.add(Command.MOVE_LEFT);
 		list.add(Command.MOVE_DOWN);
-		System.out.println(list);
 		return list;
 	}
 
