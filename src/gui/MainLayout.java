@@ -2,9 +2,14 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -13,78 +18,22 @@ public class MainLayout extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	
-	/*public MainLayout () {
-		
-		// dimension de la fenÃªtre : 900*600
-		
-		
-		
-		super();
-		
-		this.setSize(900,600);
-		this.setBackground(Color.green);
-		
-		JPanel cell1 = new JPanel();
-		JPanel cell2 = new JPanel();
-		JPanel cell3 = new JPanel();
-		JPanel cell4 = new JPanel();
-		JPanel cell5 = new JPanel();
-		
-		cell1.setBackground(Color.white);
-		cell2.setBackground(Color.red);
-		cell4.setBackground(Color.blue);
-		cell5.setBackground(Color.DARK_GRAY);
-		
-		cell3.setBackground(Color.gray);
-		
-		cell1.setPreferredSize(new Dimension(600, 10));
-		cell2.setPreferredSize(new Dimension(10, 880));
-		cell3.setPreferredSize(new Dimension(440, 880));
-		cell4.setPreferredSize(new Dimension(150, 880));
-		cell5.setPreferredSize(new Dimension(600, 10));
-		
-		//************************  ************************
-		this.setLayout(new GridBagLayout());
-		
-		//************************ Positionnement des composants ************************
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridheight = 1;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.gridx = 2;
-		this.add(cell1, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridheight = 1;
-		gbc.gridwidth = 1;
-		this.add(cell2, gbc);
-		
-		gbc.gridx = 1;
-		this.add(cell3, gbc);
-		
-		gbc.gridx = 2;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		this.add(cell4, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridheight = 1;
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.gridx = 2;
-		this.add(cell5, gbc);		
-	}*/
-	
+	protected JPanel[][] next;
+	protected JLabel score;
+	protected JLabel levelLabel;
+	protected JLabel lines;
+	protected JLabel time;
+	protected Font font;
+	protected Font testfont;
 	
 	public MainLayout (JPanel playPannel) {
 		super();
 		
+		font = new Font("", Font.BOLD, 15);
+		testfont = new Font("", Font.BOLD, 20);
+		
 		this.setSize(400,300);
-		this.setBackground(Color.black);
+		this.setBackground(Color.DARK_GRAY/*black*/);
 		
 		JPanel cell1 = new JPanel();
 		JPanel cell2 = new JPanel();
@@ -99,53 +48,45 @@ public class MainLayout extends JPanel
 		JPanel cell11 = new JPanel();
 		JPanel cell12 = new JPanel();
 		JPanel cell13 = new JPanel();
-		
 		JPanel cell14 = new JPanel();
 		JPanel cell15 = new JPanel();
 		JPanel cell16 = new JPanel();
 		JPanel cell17 = new JPanel();
 		JPanel cell18 = new JPanel();
 		JPanel cell19 = new JPanel();
-		JPanel cell20 = new JPanel();
 		JPanel cell21 = new JPanel();
 		JPanel cell22 = new JPanel();
 		JPanel cell23 = new JPanel();
-		JPanel cell24 = new JPanel();
-		
-		JLabel test = new JLabel("test");
-		cell24.add(test);
+		JPanel cell24 = getNextTetromino();
 		
 		JPanel cell25 = new JPanel();
 		JPanel cell26 = new JPanel();
 		JPanel cell27 = new JPanel();
 		JPanel cell28 = new JPanel();
 		JPanel cell29 = new JPanel();
-		JPanel cell30 = new JPanel();
-		JLabel score = new JLabel("score");
-		cell30.add(score);
-		
+		JPanel cell30 = getScore();
+
 		JPanel cell31 = new JPanel();
 		JPanel cell32 = new JPanel();
 		JPanel cell33 = new JPanel();
 		JPanel cell34 = new JPanel();
 		JPanel cell35 = new JPanel();
-		JPanel cell36 = new JPanel();
-		JLabel level = new JLabel("level");
-		cell36.add(level);
+		JPanel cell36 = getLevel();
+		
 		JPanel cell37 = new JPanel();
 		JPanel cell38 = new JPanel();
 		JPanel cell39 = new JPanel();
 		JPanel cell40 = new JPanel();
 		JPanel cell41 = new JPanel();
-		JPanel cell42 = new JPanel();
-		JLabel lines = new JLabel("lines");
-		cell42.add(lines);
+		JPanel cell42 = getLines();
+		
 		JPanel cell43 = new JPanel();
 		JPanel cell44 = new JPanel();
 		JPanel cell45 = new JPanel();
-		JPanel cell46 = new JPanel();
+		JPanel cell46 = getTime();
 		JPanel cell47 = new JPanel();
-		JPanel cell48 = new JPanel();
+		
+		JPanel cell48 = getHelpPanel();
 		JPanel cell49 = new JPanel();
 		JPanel cell50 = new JPanel();
 		JPanel cell51 = new JPanel();
@@ -153,57 +94,57 @@ public class MainLayout extends JPanel
 		JPanel bot = new JPanel();
 		
 		cell1.setBackground(Color.DARK_GRAY);
-		cell2.setBackground(Color.GRAY);
+		cell2.setBackground(Color.DARK_GRAY);
 		cell3.setBackground(Color.DARK_GRAY);
-		cell4.setBackground(Color.GRAY);
+		cell4.setBackground(Color.DARK_GRAY);
 		cell5.setBackground(Color.DARK_GRAY);
-		cell6.setBackground(Color.GRAY);
+		cell6.setBackground(Color.DARK_GRAY);
 		cell7.setBackground(Color.DARK_GRAY);
-		cell8.setBackground(Color.GRAY);
+		cell8.setBackground(Color.DARK_GRAY);
 		cell9.setBackground(Color.DARK_GRAY);
-		cell10.setBackground(Color.GRAY);
+		cell10.setBackground(Color.DARK_GRAY);
 		cell11.setBackground(Color.DARK_GRAY);
-		cell12.setBackground(Color.GRAY);
+		cell12.setBackground(Color.DARK_GRAY);
 		cell13.setBackground(Color.DARK_GRAY);
 		cell14.setBackground(Color.DARK_GRAY);
 		cell15.setBackground(Color.white);
-		cell16.setBackground(Color.gray);
+		cell16.setBackground(Color.DARK_GRAY);
 		cell17.setBackground(Color.white);
 		cell18.setBackground(Color.DARK_GRAY);
 		cell19.setBackground(Color.white);
-		cell20.setBackground(Color.DARK_GRAY);
 		cell21.setBackground(Color.white);
 		cell22.setBackground(Color.DARK_GRAY);
 		cell23.setBackground(Color.white);
 		cell24.setBackground(Color.DARK_GRAY);
 		cell25.setBackground(Color.white);
 		cell26.setBackground(Color.white);
-		cell27.setBackground(Color.gray);
-		cell28.setBackground(Color.white);
-		cell29.setBackground(Color.white);
+		cell27.setBackground(Color.DARK_GRAY);
+		cell28.setBackground(Color.gray);
+		cell29.setBackground(Color.gray);
 		cell30.setBackground(Color.DARK_GRAY);
-		cell31.setBackground(Color.white);
-		cell32.setBackground(Color.white);
-		cell33.setBackground(Color.gray);
-		cell34.setBackground(Color.white);
-		cell35.setBackground(Color.white);
+		cell31.setBackground(Color.gray);
+		cell32.setBackground(Color.gray);
+		cell33.setBackground(Color.DARK_GRAY);
+		cell34.setBackground(Color.gray);
+		cell35.setBackground(Color.gray);
 		cell36.setBackground(Color.DARK_GRAY);
-		cell37.setBackground(Color.white);
-		cell38.setBackground(Color.white);
-		cell39.setBackground(Color.gray);
-		cell40.setBackground(Color.white);
-		cell41.setBackground(Color.white);
+		cell37.setBackground(Color.gray);
+		cell38.setBackground(Color.gray);
+		cell39.setBackground(Color.DARK_GRAY);
+		cell40.setBackground(Color.gray);
+		cell41.setBackground(Color.gray);
 		cell42.setBackground(Color.DARK_GRAY);
-		cell43.setBackground(Color.white);
-		cell44.setBackground(Color.white);
+		cell43.setBackground(Color.gray);
+		cell44.setBackground(Color.gray);
 		cell45.setBackground(Color.DARK_GRAY);
 		cell46.setBackground(Color.DARK_GRAY);
+		cell46.setBorder(BorderFactory.createLineBorder(Color.gray, 10));
 		cell47.setBackground(Color.DARK_GRAY);
 		cell48.setBackground(Color.DARK_GRAY);
 		cell49.setBackground(Color.white);
 		cell50.setBackground(Color.DARK_GRAY);
 		cell51.setBackground(Color.DARK_GRAY);
-		bot.setBackground(Color.DARK_GRAY);
+		bot.setBackground(Color.green);
 		
 		
 		cell1.setPreferredSize(new Dimension (20, 20));
@@ -225,21 +166,22 @@ public class MainLayout extends JPanel
 		
 		cell18.setPreferredSize(new Dimension (20, 100));
 		cell19.setPreferredSize(new Dimension (10, 400));
-		cell20.setPreferredSize(new Dimension (200, 400));
 		cell21.setPreferredSize(new Dimension (10, 400));
 		
 		cell22.setPreferredSize(new Dimension (400, 100));
 		cell24.setPreferredSize(new Dimension (400, 130));
 		cell27.setPreferredSize(new Dimension (10, 20));
-		cell30.setPreferredSize(new Dimension (150, 100));
+		cell30.setPreferredSize(new Dimension (150, 35));
 		cell33.setPreferredSize(new Dimension (10, 20));
 
-		cell36.setPreferredSize(new Dimension (150, 100));
+		cell36.setPreferredSize(new Dimension (150, 35));
 		
 		cell39.setPreferredSize(new Dimension (10, 20));
 
-		cell42.setPreferredSize(new Dimension (150, 100));
-		//cell46.setPreferredSize(new Dimension (10, 20));
+		cell42.setPreferredSize(new Dimension (150, 35));
+		cell45.setPreferredSize(new Dimension (150, 20));
+		cell46.setPreferredSize(new Dimension (150, 55));
+		cell47.setPreferredSize(new Dimension (150, 75));
 		cell51.setPreferredSize(new Dimension (10, 20));
 		
 		
@@ -477,6 +419,141 @@ public class MainLayout extends JPanel
 		this.add(cell51, gbc);
 		
 	}
+	
+	private JPanel getNextTetromino() {
+		JPanel r = new JPanel();
+		
+        BoxLayout rL = new BoxLayout(r,BoxLayout.Y_AXIS);
+        JPanel ajout = new JPanel();
+        ajout.setBackground(Color.DARK_GRAY);
+        r.setLayout(rL);
+        r.add(ajout);
+        /*r.setBorder(new EtchedBorder());*/	/* méthode intéréssante, donc à retenir */
+        Dimension ra = new Dimension(5, 0);
+        next = new JPanel[4][4];
+        JPanel nextP = new JPanel();
+        nextP.setLayout(new GridLayout(4,4));
+        Dimension d = new Dimension(5*18, 5*18);
+        nextP.setMinimumSize(d);
+        nextP.setPreferredSize(d);
+        nextP.setMaximumSize(d);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                next[i][j] = new JPanel();
+                nextP.add(next[i][j]);
+            }
+        }
+        
+        JPanel jp = new JPanel();
+        jp.setBackground(Color.DARK_GRAY);
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(ra));
+        jp.add(Box.createHorizontalGlue());
+        r.add(jp);
+        nextP.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
+        r.add(nextP);
+        
+        r.add(Box.createRigidArea(new Dimension(100, 10)));
+		
+		return r;
+	}
+	
+	private JPanel getScore (){
+		JPanel jp = new JPanel();
+        JLabel titre = null;
+        
+        score = new JLabel("0");
+        score.setForeground(Color.white);    
+        
+        titre = new JLabel("SCORE : ");
+        titre.setForeground(Color.white);        
+        
+        titre.setFont(testfont);
+        score.setFont(testfont);
+        jp.add(titre);
+        jp.add(score);
+
+		return jp;
+	}
+	
+	private JPanel getLevel (){
+		JPanel jp = new JPanel();
+        JLabel titre = null;
+        
+        levelLabel = new JLabel("1");
+        levelLabel.setForeground(Color.white);
+        
+        titre = new JLabel ("LEVEL : ");
+        titre.setForeground(Color.white);
+        titre.setFont(testfont);
+        levelLabel.setFont(testfont);
+        jp.add(titre);
+        jp.add(levelLabel);
+        
+		return jp;
+	}
+	
+	private JPanel getLines (){
+		JPanel jp = new JPanel();
+        JLabel titre = null;
+        
+        lines = new JLabel("0");
+        lines.setForeground(Color.white);
+
+        titre = new JLabel ("LINES : ");
+        titre.setForeground(Color.white);
+        titre.setFont(testfont);
+        lines.setFont(testfont);
+        jp.add(titre);
+        jp.add(lines);
+        
+		return jp;
+	}
+	
+	private JPanel getTime (){
+		JPanel jp = new JPanel();
+        JLabel titre = null;
+        
+        time = new JLabel("00:00:00");
+        time.setForeground(Color.white);
+        
+        titre = new JLabel ("TIME : ");
+        titre.setForeground(Color.white);
+        titre.setFont(testfont);
+        time.setFont(testfont);
+        jp.add(titre);
+        jp.add(time);
+        return jp;
+	}
+	
+	private JPanel getHelpPanel() {
+		JPanel r = new JPanel();
+        BoxLayout rL = new BoxLayout(r,BoxLayout.Y_AXIS);
+        r.setLayout(rL);
+        
+		r.add(addHelpPanel("A or \u2190 - Left\n"));
+        r.add(addHelpPanel("D or \u2192 - Right"));
+        r.add(addHelpPanel("W or \u2191 - Rotate\n"));
+        r.add(addHelpPanel("S or \u2193 - Down\n"));
+        r.add(addHelpPanel("Space - Drop\n"));
+        r.add(addHelpPanel("P - Pause\n"));
+        r.add(addHelpPanel("R - Restart"));
+        return r;
+	}
+    
+    private JPanel addHelpPanel(String help) {
+        JPanel jp = new JPanel();
+        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
+        jp.add(Box.createRigidArea(new Dimension(150,20)));
+        JLabel jL = new JLabel(help);
+        jL.setFont(font);
+        jL.setForeground(Color.GRAY);
+        jp.add(jL);
+        jp.add(Box.createHorizontalGlue());
+
+        jp.setBackground(Color.DARK_GRAY);
+        return jp;
+    }
 }
 
 

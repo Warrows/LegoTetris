@@ -93,38 +93,48 @@ public class Processing {
 					maxLig = (int)coins[1];
 				}
 			}
-			Rect roi = new Rect(minCol+1, minLig+1, maxCol-minCol-1, maxLig-minLig-1);
+			Rect roi = new Rect(minCol, minLig, maxCol-minCol, maxLig-minLig);
 			Mat src = new Mat(source.clone(), roi);
 			Mat img = new Mat(img2.clone(), roi);
 			List<MatOfPoint> contours = new Vector<MatOfPoint>();
 			Mat hierarchy = new Mat();
 			Imgproc.findContours(img, contours, hierarchy, 3, 2);
 			Collections.sort(contours, new ComparaisonContour());
-			for (int i=0 ; i<contours.size() ; i++) {
+			if (contours.size() > 2) {
+				MatOfPoint2f c = new MatOfPoint2f(contours.get(1).toArray());
+				double[] coord = c.get(1, 0);
+				Point p = new Point(coord[0], coord[1]);
+				while (Imgproc.pointPolygonTest(c, p, false) < 0 && contours.size() > 2) {
+					contours.remove(2);
+				}
+			}
+			for (int i=0 ; i<3 && i<contours.size() ; i++) {
 				Imgproc.drawContours(src, contours, i, new Scalar(0, 255, 0), 2);
 			}
 			int pasLig = (maxLig-minLig)/20;
 			int pasCol = (maxCol-minCol)/10;
-			if (pasLig > 0 && pasCol > 0) {
+			if (pasLig > 0 && pasCol > 0 && contours.size()>2) {
 				res = new ArrayList<List<Integer>>();
 				int k=0;
-				MatOfPoint2f c = new MatOfPoint2f(contours.get(0).toArray());
-				MatOfPoint2f c2 = new MatOfPoint2f(contours.get(1).toArray());
+				MatOfPoint2f c = new MatOfPoint2f(contours.get(1).toArray());
+				MatOfPoint2f c2 = new MatOfPoint2f(contours.get(2).toArray());
 				for (int i=pasLig/2 ; i<20*pasLig ; i+=pasLig) {
 					res.add(new ArrayList<Integer>());
 					for (int j=pasCol/2 ; j<10*pasCol ; j+=pasCol) {
 						Point p = new Point((double)j, (double)i);
-						if (Imgproc.pointPolygonTest(c, p, false) >= 0) {
-							res.get(k).add(1);
-							Core.line(src, p, p, new Scalar(255, 0, 0));
+						if (Imgproc.pointPolygonTest(c2, p, false) >= 0) {
+							res.get(k).add(2);
+							//Core.line(src, p, p, new Scalar(255, 101, 101));
+							Core.rectangle(src, new Point((double)j-pasCol/2, (double)i-pasLig/2), new Point((double)j+pasCol/2, (double)i+pasLig/2), new Scalar(0,0,255),-1);
+
+						} else if (Imgproc.pointPolygonTest(c, p, false) >= 0) {
+							res.get(k).add(0);
+							//Core.line(src, p, p, new Scalar(255, 255, 255));
+							Core.rectangle(src, new Point((double)j-pasCol/2, (double)i-pasLig/2), new Point((double)j+pasCol/2, (double)i+pasLig/2), new Scalar(255,255,255),-1);
 						} else {
-							if (Imgproc.pointPolygonTest(c2, p, false) >= 0) {
-								res.get(k).add(2);
-								Core.line(src, p, p, new Scalar(255, 101, 101));
-							} else {
-								res.get(k).add(0);
-								Core.line(src, p, p, new Scalar(255, 255, 255));
-							}
+							res.get(k).add(1);
+							//Core.line(src, p, p, new Scalar(255, 0, 0));
+							Core.rectangle(src, new Point((double)j-pasCol/2, (double)i-pasLig/2), new Point((double)j+pasCol/2, (double)i+pasLig/2), new Scalar(255,0,0),-1);
 						}
 					}
 					k++;
