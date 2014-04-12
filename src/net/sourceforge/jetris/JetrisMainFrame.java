@@ -1,8 +1,6 @@
 package net.sourceforge.jetris;
 
 /* MainFrame created on 14.09.2006 */
-import gui.MainLayout;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -28,19 +26,17 @@ public class JetrisMainFrame extends JFrame  {
 	
 	private static final String NAME = "ENSITRIS";
     private static final int CELL_H = 24;
-    
+
+	private MainLayout mainLayout = new MainLayout(getPlayPanel());
+	
     private Font font;
     private JPanel playPanel;
     private JPanel[][] cells;
-    private JPanel[][] next;
-    private JLabel score;
-    private JLabel lines;
-    private JLabel time;
-    private JLabel[] statsF;
-    private JLabel[] statsL;
-    private JLabel levelLabel;
+    
     private JLabel hiScoreLabel;
+    
     private TetrisGrid tg;
+    
     private int nextX;
     private int nextY;
     private Figure f;
@@ -68,11 +64,6 @@ public class JetrisMainFrame extends JFrame  {
     
     //private JPanel hiScorePanel;
     //private PublishHandler pH;
-
-	public Figure getFigure()
-	{
-		return f;
-	}
 	
 	public boolean isOccupied(int row, int col)
 	{
@@ -152,11 +143,11 @@ public class JetrisMainFrame extends JFrame  {
                         g.drawString("GAME OVER", 47, 250);
 
                     } else if(isPause) {
-                        time.setText("PAUSED");
+                    	mainLayout.time.setText("PAUSED");
                     } else if(count >= 1000) {
                         count = 0;
                         incSec();
-                        time.setText(this.toString());
+                        mainLayout.time.setText(this.toString());
                     } else {
                         count+=50;
                     }
@@ -245,7 +236,7 @@ public class JetrisMainFrame extends JFrame  {
         
         //all.add(getPlayPanel(), BorderLayout.WEST);
         //all.add(getStatPanel(), BorderLayout.CENTER);
-        all.add(getMenuPanel(), BorderLayout.EAST);
+        //all.add(getMenuPanel(), BorderLayout.EAST);
         all.add(getCopyrightPanel(), BorderLayout.SOUTH);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -376,151 +367,6 @@ public class JetrisMainFrame extends JFrame  {
             }
         }
         return playPanel;
-    }
-    
-    private JPanel getMenuPanel() {
-        JPanel r = new JPanel();
-        
-        BoxLayout rL = new BoxLayout(r,BoxLayout.Y_AXIS);
-        
-        r.setLayout(rL);
-        r.setBorder(new EtchedBorder());
-        Dimension ra = new Dimension(5, 0);
-        next = new JPanel[4][4];
-        JPanel nextP = new JPanel();
-        nextP.setLayout(new GridLayout(4,4));
-        Dimension d = new Dimension(4*18, 4*18);
-        nextP.setMinimumSize(d);
-        nextP.setPreferredSize(d);
-        nextP.setMaximumSize(d);
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                next[i][j] = new JPanel();
-                nextP.add(next[i][j]);
-            }
-        }
-        
-        JPanel jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(new JLabel("NEXT:"));
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        r.add(nextP);
-        
-        r.add(Box.createRigidArea(new Dimension(100, 10)));
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(new JLabel("HI-SCORE:"));
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        hiScoreLabel = new JLabel(""+tg.hiScore[0].score);
-        hiScoreLabel.setForeground(Color.RED);
-        
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(hiScoreLabel);
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        r.add(Box.createVerticalStrut(5));
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(new JLabel("SCORE:"));
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        score = new JLabel("0");
-        score.setForeground(Color.BLUE);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(score);
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(new JLabel("LINES:"));
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        lines = new JLabel("0");
-        lines.setForeground(Color.BLUE);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(lines);
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(new JLabel("LEVEL:"));
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        levelLabel = new JLabel("1");
-        levelLabel.setForeground(Color.BLUE);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(levelLabel);
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(new JLabel("TIME:"));
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        time = new JLabel("00:00:00");
-        time.setForeground(Color.BLUE);
-        
-        jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(ra));
-        jp.add(time);
-        jp.add(Box.createHorizontalGlue());
-        r.add(jp);
-        
-        r.add(Box.createVerticalGlue());
-        
-        r.add(addHelpPanel("A or \u2190 - Left"));
-        r.add(addHelpPanel("D or \u2192 - Right"));
-        r.add(addHelpPanel("W or \u2191 - Rotate"));
-        r.add(addHelpPanel("S or \u2193 - Down"));
-        r.add(addHelpPanel("Space - Drop"));
-        r.add(addHelpPanel("P - Pause"));
-        r.add(addHelpPanel("R - Restart"));
-
-        return r;
-    }
-    
-    private JPanel addHelpPanel(String help) {
-        JPanel jp = new JPanel();
-        jp.setLayout(new BoxLayout(jp, BoxLayout.LINE_AXIS));
-        jp.add(Box.createRigidArea(new Dimension(5,0)));
-        JLabel jL = new JLabel(help);
-        jL.setFont(font);
-        jL.setForeground(Color.GRAY);
-        jp.add(jL);
-        jp.add(Box.createHorizontalGlue());
-        return jp;
     }
     
     private JPanel getCopyrightPanel() {
@@ -712,14 +558,14 @@ public class JetrisMainFrame extends JFrame  {
     private void showNext(Figure f) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                next[i][j].setBackground(nextBg);
-                next[i][j].setBorder(BorderFactory.createEmptyBorder());
+            	mainLayout.next[i][j].setBackground(nextBg);
+            	mainLayout.next[i][j].setBorder(BorderFactory.createEmptyBorder());
             }
         }
         
         for (int j = 0; j < f.arrX.length; j++) {
-            next[f.arrY[j]][f.arrX[j]].setBackground(f.getGolor());
-            next[f.arrY[j]][f.arrX[j]].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        	mainLayout.next[f.arrY[j]][f.arrX[j]].setBackground(f.getGolor());
+        	mainLayout.next[f.arrY[j]][f.arrX[j]].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         }
     }
     
@@ -728,9 +574,9 @@ public class JetrisMainFrame extends JFrame  {
         nextX = 4;
         nextY = 0;
 
-        score.setText(""+tg.getScore());
-        lines.setText(""+tg.getLines());
-        levelLabel.setText(tg.getLevel()+" / 20");
+        mainLayout.score.setText(""+tg.getScore());
+        mainLayout.lines.setText(""+tg.getLines());
+        mainLayout.levelLabel.setText(tg.getLevel()+" / 20");
 
         f = fNext;
         fNext = ff.getRandomFigure();
@@ -800,6 +646,15 @@ public class JetrisMainFrame extends JFrame  {
         }
         nextMove();
     }
+
+    public void setHiScore(JLabel score) {
+    	
+    	hiScoreLabel = score;
+    }
+    public TetrisGrid getTG() {
+    	
+    	return tg;
+    }
     
     private synchronized void pause() {
         isPause = !isPause;
@@ -818,7 +673,7 @@ public class JetrisMainFrame extends JFrame  {
         isPause = false;
         fNext = ff.getRandomFigure();
         tt.resetTime();
-        time.setText("00:00:00");
+        mainLayout.time.setText("00:00:00");
         tg.resetStats();
         dropNext();
         nextMove();
@@ -976,5 +831,10 @@ public class JetrisMainFrame extends JFrame  {
 	public boolean isGameOver()
 	{
 		return isGameOver;
+	}
+
+	public Figure getFigure()
+	{
+		return f;
 	}
 }
