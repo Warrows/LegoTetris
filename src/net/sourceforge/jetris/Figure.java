@@ -13,13 +13,13 @@ public abstract class Figure
 	protected final static int S = 6;
 	protected final static int Z = 7;
 
-	protected final static Color COL_I = Color.RED;
-	protected final static Color COL_T = Color.GRAY;
-	protected final static Color COL_O = Color.CYAN;
-	protected final static Color COL_L = Color.ORANGE;
-	protected final static Color COL_J = Color.MAGENTA;
-	protected final static Color COL_S = Color.BLUE;
-	protected final static Color COL_Z = Color.GREEN;
+	protected final static Color COL_I = new Color(254, 210, 153);
+	protected final static Color COL_T = new Color(254, 254, 153);
+	protected final static Color COL_O = new Color(254, 153, 153);
+	protected final static Color COL_L = new Color(251, 153, 254);
+	protected final static Color COL_J = new Color(153, 176, 254);
+	protected final static Color COL_S = new Color(153, 254, 237);
+	protected final static Color COL_Z = new Color(154, 253, 154);
 
 	protected int[] arrX;
 	protected int[] arrY;
