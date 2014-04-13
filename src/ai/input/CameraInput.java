@@ -42,7 +42,7 @@ public class CameraInput implements TetrisDataInput
 			rawInput = vision.getJeu();
 		} catch (BadWebcamException e)
 		{
-			throw new NoInputException();
+			throw new NoInputException(e.getMessage());
 		}
 		for (int row = 0; row < 20; row++)
 			for (int col = 0; col < 10; col++)
@@ -56,13 +56,11 @@ public class CameraInput implements TetrisDataInput
 				System.out.print(rawInput.get(row).get(col));
 			System.out.println("");
 		}
-		System.out.println(g);
 		setTetromino(g, rawInput);
-		System.out.println(g);
 		return g;
 	}
 
-	private void setTetromino(Grid g, List<List<Integer>> rawInput)
+	private void setTetromino(Grid g, List<List<Integer>> rawInput) throws NoInputException
 	{
 		int row = 0;
 		int col = 0;
@@ -70,49 +68,42 @@ public class CameraInput implements TetrisDataInput
 			for (int j = 0; j < Grid.WIDTH; j++)
 				if (rawInput.get(i).get(j) == 2)
 				{
-					row = j;
-					col = i;
-					System.out.println("i: "+i+", j:"+j);
+					row = i;
+					col = j;
 					break retour;
 				}
 		Figure currentTetromino = null;
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row).get(col + 1) == 2
+		if (rawInput.get(row).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col + 2) == 2)
-			currentTetromino = new FigureS();
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row).get(col + 1) == 2
+			currentTetromino = new FigureZ();
+		if (rawInput.get(row).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col - 1) == 2
 				&& rawInput.get(row + 1).get(col) == 2)
-			currentTetromino = new FigureZ();
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row).get(col + 1) == 2
+			currentTetromino = new FigureS();
+		if (rawInput.get(row).get(col + 1) == 2
 				&& rawInput.get(row).get(col + 2) == 2
 				&& rawInput.get(row + 1).get(col + 1) == 2)
 			currentTetromino = new FigureT();
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row + 1).get(col) == 2
+		if (rawInput.get(row + 1).get(col) == 2
 				&& rawInput.get(row + 2).get(col) == 2
 				&& rawInput.get(row + 2).get(col - 1) == 2)
 			currentTetromino = new FigureJ();
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row + 1).get(col) == 2
+		if (rawInput.get(row + 1).get(col) == 2
 				&& rawInput.get(row + 1).get(col) == 2
 				&& rawInput.get(row + 2).get(col + 1) == 2)
 			currentTetromino = new FigureL();
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row + 1).get(col) == 2
+		if (rawInput.get(row + 1).get(col) == 2
 				&& rawInput.get(row + 2).get(col) == 2
 				&& rawInput.get(row + 3).get(col) == 2)
 			currentTetromino = new FigureI();
-		if (rawInput.get(row).get(col) == 2
-				&& rawInput.get(row).get(col + 1) == 2
+		if (rawInput.get(row).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col) == 2)
 			currentTetromino = new FigureO();
+		if (currentTetromino == null)
+			throw new NoInputException();
 		g.setFigure(currentTetromino);
-		System.out.println(currentTetromino);
 	}
 
 	@Override

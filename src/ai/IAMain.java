@@ -4,9 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.SortedSet;
 
+import net.sourceforge.jetris.JetrisMainFrame;
 import ai.executor.Executor;
 import ai.executor.InternExecutor;
 import ai.input.CameraInput;
+import ai.input.GameInput;
 import ai.input.NoInputException;
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
@@ -19,6 +21,8 @@ public class IAMain implements Runnable
 
 	public static void main(String args[])
 	{
+		// (new Thread(new IAMain(new GameInput(new
+		// JetrisMainFrame())))).start();
 		(new Thread(new IAMain(new CameraInput()))).start();
 	}
 
@@ -30,6 +34,14 @@ public class IAMain implements Runnable
 	@Override
 	public void run()
 	{
+		try
+		{
+			Thread.sleep(5000);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("C'est parti!");
 		while (!tdi.isGameOver())
 		{
 			// Acquisition de la grille
@@ -37,16 +49,20 @@ public class IAMain implements Runnable
 			{
 				currentState = tdi.getTetrisData();
 				// création des sous grilles
+				System.out.println(currentState);
 				possibleStates = currentState.children();
+				System.out.println(possibleStates.first());
 				// calcul du chemin entre la grille actuelle et le sous grille
 				// envoi du chemin
 				play(getCommands());
 			} catch (NoInputException e)
 			{
+				e.printStackTrace();
+				continue;
 			}
 			try
 			{
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();
@@ -67,6 +83,7 @@ public class IAMain implements Runnable
 		for (int i = 0; i > objective.getTranslation(); i--)
 			list.add(Command.MOVE_LEFT);
 		list.add(Command.MOVE_DOWN);
+		System.out.println(list);
 		return list;
 	}
 
@@ -75,11 +92,10 @@ public class IAMain implements Runnable
 		Executor ex = new InternExecutor();
 		for (Command c : commands)
 		{
-			System.out.println(c);
 			ex.execute(c);
 			try
 			{
-				Thread.sleep(1);
+				Thread.sleep(10);
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();

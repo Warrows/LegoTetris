@@ -18,6 +18,8 @@ public class Vision {
         if(!cap.isOpened())
         	throw new NoWebCamException();
         img = new Mat();
+        for (int i = 0; i<5; i++)
+        	cap.read(img);
 	}
 
 	public List<List<Integer>> getJeu() throws BadWebcamException
@@ -28,16 +30,17 @@ public class Vision {
 
 			List<List<Integer>> etatJeu = null;
 			etatJeu = Processing.getJeu();
-			{
+			/*{
 				Imshow im = new Imshow("Detection");
 				im.showImage(img);
-			}
+			 }*/
 			if (etatJeu != null)
 			{
 				return etatJeu;
 			}
+			throw new BadWebcamException("Image lue non exploitable");
 		}
-		throw new BadWebcamException();
+		throw new BadWebcamException("Pas d'image lue");
 	}
 	
 	public static void show () throws NoWebCamException {
