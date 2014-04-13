@@ -32,6 +32,11 @@ public class CameraInput implements TetrisDataInput
 		}
 	}
 
+	public CameraInput(Vision vision)
+	{
+		this.vision = vision;
+	}
+
 	@Override
 	public Grid getTetrisData() throws NoInputException
 	{
@@ -47,7 +52,7 @@ public class CameraInput implements TetrisDataInput
 		for (int row = 0; row < 20; row++)
 			for (int col = 0; col < 10; col++)
 				g.setCell(row, col, rawInput.get(row).get(col) == 1);
-		System.out.println("---------------------------------------------");
+		/*System.out.println("---------------------------------------------");
 		System.out.println("---------------------------------------------");
 		System.out.println("---------------------------------------------");
 		for (int row = 0; row < 20; row++)
@@ -55,7 +60,7 @@ public class CameraInput implements TetrisDataInput
 			for (int col = 0; col < 10; col++)
 				System.out.print(rawInput.get(row).get(col));
 			System.out.println("");
-		}
+		}*/
 		setTetromino(g, rawInput);
 		return g;
 	}
@@ -73,6 +78,7 @@ public class CameraInput implements TetrisDataInput
 					break retour;
 				}
 		Figure currentTetromino = null;
+		try{
 		if (rawInput.get(row).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col + 1) == 2
 				&& rawInput.get(row + 1).get(col + 2) == 2)
@@ -103,6 +109,10 @@ public class CameraInput implements TetrisDataInput
 			currentTetromino = new FigureO();
 		if (currentTetromino == null)
 			throw new NoInputException();
+		}
+		catch (IndexOutOfBoundsException e){
+			e.printStackTrace();
+		}
 		g.setFigure(currentTetromino);
 	}
 

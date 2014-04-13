@@ -61,7 +61,7 @@ public class Vision {
 					etatJeu = Processing.getJeu();
 				} catch (BadWebcamException e)
 				{}
-        		if (etatJeu != null) {
+        		/*if (etatJeu != null) {
         			for (int i=0 ; i<etatJeu.size() ; i++) {
         				for (int j=0 ; j<etatJeu.get(i).size() ; j++) {
         					System.out.print(etatJeu.get(i).get(j));
@@ -69,7 +69,7 @@ public class Vision {
         				System.out.println();
         			}
         			System.out.println();
-        		}
+        		}*/
         	}
         }
 	}
