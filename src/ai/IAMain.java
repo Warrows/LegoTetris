@@ -6,7 +6,7 @@ import java.util.SortedSet;
 
 import ai.executor.Executor;
 import ai.executor.InternExecutor;
-import ai.executor.PhysicalExecutor;
+import ai.input.CameraInput;
 import ai.input.NoInputException;
 import ai.input.TetrisDataInput;
 import ai.model.Grid;
@@ -17,6 +17,11 @@ public class IAMain implements Runnable
 	private Grid currentState;
 	private SortedSet<Grid> possibleStates;
 
+	public static void main(String args[])
+	{
+		(new Thread(new IAMain(new CameraInput()))).start();
+	}
+
 	public IAMain(TetrisDataInput tdi)
 	{
 		this.tdi = tdi;
@@ -25,24 +30,27 @@ public class IAMain implements Runnable
 	@Override
 	public void run()
 	{
-		// Acquisition de la grille
-		try
+		while (!tdi.isGameOver())
 		{
-			currentState = tdi.getTetrisData();
-			// création des sous grilles
-			possibleStates = currentState.children();
-			// calcul du chemin entre la grille actuelle et le sous grille
-			// envoi du chemin
-			play(getCommands());
-		} catch (NoInputException e)
-		{
-		}
-		try
-		{
-			Thread.sleep(100);
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
+			// Acquisition de la grille
+			try
+			{
+				currentState = tdi.getTetrisData();
+				// création des sous grilles
+				possibleStates = currentState.children();
+				// calcul du chemin entre la grille actuelle et le sous grille
+				// envoi du chemin
+				play(getCommands());
+			} catch (NoInputException e)
+			{
+			}
+			try
+			{
+				Thread.sleep(1000);
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -67,6 +75,7 @@ public class IAMain implements Runnable
 		Executor ex = new InternExecutor();
 		for (Command c : commands)
 		{
+			System.out.println(c);
 			ex.execute(c);
 			try
 			{

@@ -164,7 +164,7 @@ public class Grid implements Comparable<Grid>
 			{
 				if (getCell(row, col).isOccupied())
 					str += " X ";
-				else if (tetromino.getCells(this).contains(getCell(row, col)))
+				else if (tetromino !=null && tetromino.getCells(this).contains(getCell(row, col)))
 					str += " O ";
 				else
 					str += " . ";
