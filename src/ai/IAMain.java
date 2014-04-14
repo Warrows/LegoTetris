@@ -47,13 +47,7 @@ public class IAMain implements Runnable
 			// Acquisition de la grille
 			try
 			{
-				try
-				{
-					currentState = tdi.getTetrisData();
-				} catch (IndexOutOfBoundsException e)
-				{
-					continue;
-				}
+				currentState = tdi.getTetrisData();
 				// création des sous grilles
 				System.out.println(currentState);
 				possibleStates = currentState.children();
@@ -62,9 +56,9 @@ public class IAMain implements Runnable
 				// calcul du chemin entre la grille actuelle et le sous grille
 				// envoi du chemin
 				play(getCommands());
-			} catch (NoInputException e)
+			} catch (IndexOutOfBoundsException | NullPointerException
+					| NoInputException e)
 			{
-				e.printStackTrace();
 				continue;
 			}
 			try
@@ -82,10 +76,8 @@ public class IAMain implements Runnable
 							{
 								e.printStackTrace();
 							}
-			} catch (IndexOutOfBoundsException | NoInputException e)
+			} catch (IndexOutOfBoundsException | NullPointerException | NoInputException e)
 			{
-				System.err.println("Probleme de camera");
-				e.printStackTrace();
 			}
 			try
 			{
