@@ -200,9 +200,9 @@ public class JetrisMainFrame extends JFrame  {
                     moveRight();
                 } else if(code == KeyEvent.VK_J || code == KeyEvent.VK_DOWN) {
                     moveDown();
-                } else if(code == KeyEvent.VK_V || code == KeyEvent.VK_UP) {
+                } else if(code == KeyEvent.VK_SEMICOLON || code == KeyEvent.VK_UP) {
                     rotation();
-                } else if(code == KeyEvent.VK_SEMICOLON || code == KeyEvent.VK_SPACE ) {
+                } else if(code == KeyEvent.VK_V || code == KeyEvent.VK_SPACE ) {
                     moveDrop();
                 } /*else if(code == KeyEvent.VK_R) { //Only for the applet needed
                     restart();
