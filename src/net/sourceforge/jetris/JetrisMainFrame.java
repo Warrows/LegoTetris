@@ -25,7 +25,7 @@ public class JetrisMainFrame extends JFrame  {
 
 	private MainLayout mainLayout = new MainLayout(getPlayPanel());
 	
-	private static final String NAME = "JETRIS";
+	private static final String NAME = "ENSITRIS";
     private static final int CELL_H = 24;
 	
     private Font font;
@@ -202,7 +202,7 @@ public class JetrisMainFrame extends JFrame  {
                     moveDown();
                 } else if(code == KeyEvent.VK_V || code == KeyEvent.VK_UP) {
                     rotation();
-                } else if(code == KeyEvent.VK_SEMICOLON) {
+                } else if(code == KeyEvent.VK_SEMICOLON || code == KeyEvent.VK_SPACE ) {
                     moveDrop();
                 } /*else if(code == KeyEvent.VK_R) { //Only for the applet needed
                     restart();
@@ -384,7 +384,7 @@ public class JetrisMainFrame extends JFrame  {
         r.setBorder(new EtchedBorder());
         r.add(Box.createRigidArea(new Dimension(30,0)));
         
-        JLabel jL = new JLabel("JETRIS : Ferric, Lebarbe, Meunier, Carozzani, Furon  ");
+        JLabel jL = new JLabel("ENSITRIS : Ferric, Lebarbe, Meunier, Carozzani, Furon  ");
         jL.setFont(font);
         
         r.add(jL);
